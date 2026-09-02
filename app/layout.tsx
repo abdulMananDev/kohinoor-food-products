@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE_URL, SITE_NAME, OG_IMAGE } from "@/lib/content";
@@ -111,6 +111,14 @@ const orgJsonLd = {
       inLanguage: "en-IN",
     },
   ],
+};
+
+/* Colours the browser chrome on mobile. Matches --paper so the address bar
+   continues the page rather than sitting on a white edge against it.
+   Lives in `viewport`, not `metadata` — it moved there in Next 14. */
+export const viewport: Viewport = {
+  themeColor: "#faf8f3",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
