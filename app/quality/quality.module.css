@@ -1,0 +1,438 @@
+/* /quality — claim, response, result.
+ *
+ * Results render as cards, not a table. Machine-readability is preserved by
+ * the JSON-LD ItemList in the page, so dropping the table costs nothing to
+ * crawlers or answer engines.
+ *
+ * Cards use a nested double-bezel: an outer tray in a warmer ground holding
+ * an inner core in --surface, with concentric radii. Depth comes from
+ * brightness and hairlines, per the design system, never from drop shadows. */
+
+:root {
+  --r-card: 8px;
+  --r-core: 8px;
+}
+
+.page {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--s6) var(--s5) var(--s6);
+}
+
+/* ---- Masthead ---- */
+
+.eyebrow {
+  display: inline-block;
+  padding: var(--s1) var(--s3);
+  border-radius: var(--r-control);
+  background: var(--sunk);
+  color: var(--ink-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.page h1 {
+  margin-top: var(--s5);
+  font-size: clamp(2.2rem, 5.4vw, 4rem);
+  max-width: 20ch;
+  letter-spacing: -0.02em;
+}
+.lede {
+  margin: var(--s6) 0 0;
+  max-width: 58ch;
+  color: var(--ink-muted);
+  font-size: 1.1rem;
+}
+
+/* ---- Headline figures ---- */
+
+.figures {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s4);
+  margin-top: var(--s8);
+}
+.figure {
+  background: var(--sunk);
+  border-radius: var(--r-card);
+  padding: var(--s1);
+}
+.figureCore {
+  background: var(--surface);
+  border-radius: var(--r-core);
+  padding: var(--s6) var(--s5);
+  height: 100%;
+}
+.figureCore strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.figureCore span {
+  display: block;
+  margin-top: var(--s3);
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+}
+
+/* ---- Section headers ---- */
+
+.section {
+  margin-top: var(--s10);
+}
+.section > h2 {
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  letter-spacing: -0.01em;
+  max-width: 24ch;
+}
+.sectionNote {
+  margin: var(--s4) 0 0;
+  max-width: 58ch;
+  color: var(--ink-muted);
+}
+
+/* ---- Timeline ---- */
+
+.timeline {
+  margin-top: var(--s7);
+}
+.entry {
+  display: grid;
+  grid-template-columns: var(--spine) 1fr;
+  gap: 0 var(--s7);
+}
+.when {
+  border-right: 1px solid var(--rule);
+  padding: 0 var(--s5) var(--s8) 0;
+}
+.when time,
+.when span {
+  display: block;
+  color: var(--ink-faint);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.what {
+  padding-bottom: var(--s8);
+}
+.what h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.what p {
+  margin: var(--s3) 0 0;
+  max-width: 60ch;
+  color: var(--ink-muted);
+}
+.what a {
+  color: var(--ink);
+  text-underline-offset: 3px;
+}
+
+/* ---- Result cards ---- */
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--s4);
+  margin-top: var(--s7);
+}
+.card {
+  grid-column: span 2;
+  background: var(--sunk);
+  border-radius: var(--r-card);
+  padding: var(--s1);
+  transition: transform 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+/* The compound the advisory actually named carries the wide cell. Hierarchy
+   from the content, not decoration. */
+.cardFeatured {
+  grid-column: span 6;
+}
+.cardCore {
+  position: relative;
+  height: 100%;
+  background: var(--surface);
+  border-radius: var(--r-core);
+  padding: var(--s5);
+}
+
+/* State stripe. The result is the only thing on this page a reader actually
+   scans for, and words alone make a failed row look exactly like a passed
+   one. Driven by data-state, so a detected compound reads red at a glance.
+   Colour is never the only signal — the value still says which it is.
+
+   Drawn as an inset bar rather than a border-left: the core's 14px radius
+   bends a border into an arc at the corners, which reads as a rendering
+   fault. A pseudo-element carries its own rounding and stays out of the
+   layout. */
+.cardCore::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: var(--s4);
+  bottom: var(--s4);
+  width: 3px;
+  border-radius: 3px;
+  background: var(--cleared);
+}
+
+.cardCore[data-state="detected"]::before {
+  background: var(--restricted);
+}
+.cardFeatured .cardCore {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--s5);
+  flex-wrap: wrap;
+  padding: var(--s6) var(--s5);
+}
+.cardName {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.cardFeatured .cardName {
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+}
+.cardFlag {
+  display: block;
+  margin-top: var(--s2);
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  max-width: 46ch;
+}
+.cardResult {
+  margin-top: var(--s5);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--rule);
+}
+.cardFeatured .cardResult {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+  text-align: right;
+}
+.cardResult strong {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.cardMeta {
+  display: block;
+  margin-top: var(--s2);
+  color: var(--ink-faint);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* ---- Report provenance ---- */
+
+.provenance {
+  margin-top: var(--s7);
+  background: var(--sunk);
+  border-radius: var(--r-card);
+  padding: var(--s2);
+}
+.provenanceCore {
+  background: var(--surface);
+  border-radius: var(--r-core);
+  padding: var(--s6);
+}
+.provHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--s5);
+  flex-wrap: wrap;
+}
+.provHead h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.provHead p {
+  margin: var(--s2) 0 0;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+}
+.verdict {
+  display: inline-block;
+  padding: var(--s2) var(--s4);
+  border-radius: var(--r-control);
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--cleared-wash);
+  color: var(--cleared);
+  white-space: nowrap;
+}
+.meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--s5);
+  margin: var(--s6) 0 0;
+  padding-top: var(--s5);
+  border-top: 1px solid var(--rule);
+}
+.meta dt {
+  color: var(--ink-faint);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.meta dd {
+  margin: var(--s2) 0 0;
+}
+.provFoot {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s5);
+  flex-wrap: wrap;
+  margin-top: var(--s6);
+  padding-top: var(--s5);
+  border-top: 1px solid var(--rule);
+}
+.provFoot p {
+  margin: 0;
+  max-width: 54ch;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+}
+
+/* Link with the nested trailing icon, kept inside the type scale. */
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s3);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+.action span:first-child {
+  border-bottom: 2px solid var(--rule-strong);
+  padding-bottom: 2px;
+}
+.actionIcon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--sunk);
+  font-size: 0.85rem;
+  transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .action:hover .actionIcon {
+    transform: translate(2px, -2px);
+  }
+}
+
+/* ---- Scope and pending ---- */
+
+.scope {
+  margin-top: var(--s5);
+  background: var(--sunk);
+  border-radius: var(--r-card);
+  padding: var(--s1);
+  text-align: center;
+}
+.scopeCore {
+  background: var(--surface);
+  border-radius: var(--r-core);
+  padding: var(--s6);
+  text-align: center;
+}
+.scopeCore h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.scopeCore p {
+  margin: var(--s3) auto;
+  max-width: 62ch;
+  color: var(--ink-muted);
+}
+
+.pending {
+  margin-top: var(--s4);
+  border: 1px dashed var(--rule-strong);
+  border-radius: var(--r-card);
+  padding: var(--s5);
+  max-width: 62ch;
+}
+.pendingLabel {
+  color: var(--ink-faint);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.pending p {
+  margin: var(--s2) 0 0;
+  color: var(--ink-muted);
+}
+
+/* ---- Load reveal. No scroll-linked motion anywhere on this site. ---- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.reveal {
+  animation: rise 420ms cubic-bezier(0.32, 0.72, 0, 1) backwards;
+}
+
+@media (max-width: 900px) {
+  .results {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .card,
+  .cardFeatured {
+    grid-column: span 2;
+  }
+  .figures {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .entry {
+    grid-template-columns: 1fr;
+  }
+  .when {
+    border-right: 0;
+    padding: 0 0 var(--s3);
+  }
+  .what {
+    padding-bottom: var(--s7);
+  }
+  .results {
+    grid-template-columns: 1fr;
+  }
+  .card,
+  .cardFeatured {
+    grid-column: span 1;
+  }
+  .cardFeatured .cardResult {
+    text-align: left;
+  }
+}

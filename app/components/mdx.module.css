@@ -1,0 +1,330 @@
+/* MDX component styling. Tokens only — no literal colours. */
+
+/* ---- lab table -------------------------------------------------------- */
+
+.tableWrap {
+  margin: var(--s6) 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.caption {
+  caption-side: top;
+  text-align: left;
+  padding-bottom: var(--s3);
+  color: var(--ink-muted);
+  font-size: 14px;
+}
+
+.table thead th {
+  text-align: left;
+  padding: var(--s2) var(--s3) var(--s2) 0;
+  border-bottom: 1px solid var(--rule-strong);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.row td,
+.row th {
+  padding: var(--s3) var(--s3) var(--s3) 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: baseline;
+  text-align: left;
+}
+
+.analyte {
+  font-weight: 600;
+}
+
+.note {
+  display: block;
+  margin-top: 2px;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.absent {
+  color: var(--ink-faint);
+}
+
+/* Three visually separate states, and a fourth for an actual failure.
+   Never colour alone: each chip carries its own word, and the untested
+   chip is additionally dashed so it cannot be skimmed as a pass. */
+.status {
+  display: inline-block;
+  padding: 2px var(--s3);
+  border-radius: var(--r-control);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.status[data-state="not-detected"] {
+  background: var(--cleared-wash);
+  color: var(--cleared);
+}
+
+/* Passing, but with a measured value — so it is deliberately quieter than
+   "not detected", which is the stronger result. */
+.status[data-state="within-limit"] {
+  background: transparent;
+  border-color: var(--cleared);
+  color: var(--cleared);
+}
+
+.status[data-state="exceeded"] {
+  background: var(--restricted-wash);
+  color: var(--restricted);
+}
+
+/* Not a pass and not a failure: an absence of evidence. Grey, dashed, and
+   never green. */
+.status[data-state="not-tested"] {
+  background: var(--sunk);
+  color: var(--ink-muted);
+  border-style: dashed;
+  border-color: var(--rule-strong);
+}
+
+.row[data-state="not-tested"] .analyte {
+  color: var(--ink-muted);
+}
+
+/* Below 640px the table stops being a grid and becomes stacked records, so
+   lab data never needs a sideways swipe on a phone. The header row is
+   hidden and each cell carries its own label from data-label. */
+@media (max-width: 640px) {
+  .table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .table,
+  .table tbody,
+  .row,
+  .row td,
+  .row th {
+    display: block;
+    width: 100%;
+  }
+
+  .row {
+    padding: var(--s4) 0;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  .row td,
+  .row th {
+    border-bottom: 0;
+    padding: 2px 0;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s4);
+  }
+
+  .row td::before {
+    content: attr(data-label);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .analyte {
+    font-size: 17px;
+    padding-bottom: var(--s2) !important;
+  }
+}
+
+/* ---- report link ------------------------------------------------------ */
+
+.report {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3) var(--s5);
+  justify-content: space-between;
+  align-items: baseline;
+  margin: var(--s6) 0;
+  padding: var(--s5);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-surface);
+  text-decoration: none;
+  color: var(--ink);
+  transition:
+    border-color var(--dur-fast) ease,
+    background-color var(--dur-fast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .report:hover {
+    border-color: var(--rule-strong);
+    background: var(--paper);
+  }
+}
+
+.reportMain {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.reportLab {
+  font-weight: 600;
+}
+
+.reportNo {
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.reportMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.reportCta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 1px;
+}
+
+/* ---- timeline --------------------------------------------------------- */
+
+.timeline {
+  list-style: none;
+  margin: var(--s6) 0;
+  padding: 0;
+}
+
+.entry {
+  display: grid;
+  gap: var(--s2) var(--s6);
+  padding-bottom: var(--s6);
+}
+
+@media (min-width: 720px) {
+  .entry {
+    grid-template-columns: var(--spine) 1fr;
+    gap: 0 var(--s6);
+  }
+
+  .when {
+    border-right: 1px solid var(--rule);
+    padding-right: var(--s5);
+    padding-bottom: var(--s6);
+  }
+}
+
+.when time,
+.when span {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.what > :global(p) {
+  margin-top: var(--s2);
+  color: var(--ink-muted);
+  max-width: 60ch;
+}
+
+.entryTitle {
+  font-size: 18px;
+}
+
+.entry[data-pending] .entryTitle {
+  color: var(--ink-muted);
+}
+
+.pending {
+  margin-top: var(--s3);
+  padding: var(--s2) var(--s3);
+  border: 1px dashed var(--rule-strong);
+  border-radius: var(--r-control);
+  font-size: 13px;
+  color: var(--ink-muted);
+  display: inline-block;
+}
+
+/* ---- disclosure ------------------------------------------------------- */
+
+/* Not a card.
+ *
+ * This was a tinted panel with rounded corners and a gold rail down the
+ * side, which is decoration pretending to be structure: the block is not
+ * elevated content, and on a system where elevation means brightness, a
+ * tint here says nothing. It also happens to be the single most templated
+ * shape on the web.
+ *
+ * What it is instead: the same label-spine the timeline and the ledger use,
+ * under one firm rule. The structure already exists on this site, so the
+ * disclosure reads as part of the document rather than as a widget dropped
+ * into it. */
+.disclosure {
+  margin: var(--s8) 0;
+  padding-top: var(--s4);
+  border-top: 1px solid var(--ink);
+  display: grid;
+  gap: var(--s3) var(--s6);
+}
+
+@media (min-width: 720px) {
+  .disclosure {
+    grid-template-columns: var(--spine) 1fr;
+    gap: 0 var(--s6);
+  }
+}
+
+.disclosureTitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  /* Full ink, not --ink-faint. This is a label on something the reader
+     should not skip. */
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Also full ink, and the same size as body copy. A stated limitation set
+   in grey at 15px is fine print, and fine print is what a brand uses when
+   it would rather you did not read something. The whole argument of this
+   section is the opposite. */
+.disclosureBody {
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.75;
+  max-width: 62ch;
+}
+
+.disclosureBody > :global(p + p) {
+  margin-top: var(--s3);
+}

@@ -1,0 +1,211 @@
+/* Site chrome: nav and footer. */
+
+/* ---- nav ------------------------------------------------------------ */
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.barInner {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--s3) var(--s5);
+  display: flex;
+  align-items: center;
+  gap: var(--s5);
+}
+
+.wordmark {
+  margin-right: auto;
+  font-size: 19px;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+/* The wordmark plus three labels needs about 400px, so below that the bar
+   would push the document wider than the viewport — which drags every
+   centred section on the page sideways with it. Tighten the bar instead of
+   hiding the overflow: the symptom shows up on the hero, but the cause is
+   here. */
+@media (max-width: 460px) {
+  .barInner {
+    padding-inline: var(--s4);
+    gap: var(--s3);
+  }
+
+  .wordmark {
+    font-size: 17px;
+  }
+
+  .link {
+    padding-inline: var(--s2);
+    font-size: 13px;
+  }
+
+  .link[data-active]::after {
+    left: var(--s2);
+    right: var(--s2);
+  }
+}
+
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--s3);
+  border-radius: var(--r-control);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  text-decoration: none;
+  white-space: nowrap; /* "Test results" must not wrap and swell the bar */
+  transition:
+    color var(--dur-fast) ease,
+    background-color var(--dur-fast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    color: var(--ink);
+    background: var(--sunk);
+  }
+}
+
+.link[data-active] {
+  color: var(--ink);
+}
+
+/* The active mark is a gold underline rather than a colour change, because
+   gold cannot be text (2:1 on paper) but works perfectly as a 2px rule.
+   Drawn with a pseudo-element so it never affects the line box. */
+.link[data-active]::after {
+  content: "";
+  position: absolute;
+  left: var(--s3);
+  right: var(--s3);
+  bottom: 4px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gold);
+}
+
+/* ---- footer --------------------------------------------------------- */
+
+.footer {
+  margin-top: var(--s10);
+  background: var(--deep);
+  color: var(--ink-on-deep);
+}
+
+.footerInner {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--s7) var(--s5) var(--s6);
+  display: grid;
+  gap: var(--s7);
+}
+
+@media (min-width: 860px) {
+  .footerInner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--s9);
+    align-items: start;
+  }
+}
+
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  max-width: 46ch;
+}
+
+.footerMark {
+  font-size: 24px;
+  color: var(--ink-on-deep);
+  text-decoration: none;
+  /* The one gold mark in the footer: a rule under the wordmark. */
+  border-bottom: 2px solid var(--gold);
+  align-self: flex-start;
+  padding-bottom: 2px;
+}
+
+.footerLine {
+  font-size: 15px;
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--ink-on-deep) 72%, transparent);
+}
+
+/* Flex, not auto-fit grid. The parent's second track is `auto`, which
+   shrink-wraps, so `repeat(auto-fit, minmax(140px, 1fr))` resolved to a
+   single column and stacked all three groups vertically — which is what
+   made the footer several hundred pixels tall on desktop. Flex items size
+   to their content and sit side by side. */
+.footerNav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s5) var(--s8);
+}
+
+.footerCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.footerHead {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink-on-deep) 55%, transparent);
+  margin: 0 0 var(--s2);
+}
+
+.footerLink {
+  font-size: 15px;
+  color: color-mix(in srgb, var(--ink-on-deep) 82%, transparent);
+  text-decoration: none;
+  padding: 4px 0;
+  transition: color var(--dur-fast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footerLink:hover {
+    color: var(--gold);
+  }
+}
+
+.footerBase {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--s5);
+  border-top: 1px solid color-mix(in srgb, var(--ink-on-deep) 14%, transparent);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3) var(--s5);
+  justify-content: space-between;
+}
+
+.footerFine {
+  font-size: 12.5px;
+  color: color-mix(in srgb, var(--ink-on-deep) 58%, transparent);
+}

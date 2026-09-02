@@ -1,0 +1,102 @@
+/* Shared shell for the reading pages (About, Products). The home page and
+   the quality report have their own layouts; everything else is a column of
+   prose with a fact table at the end, and that is worth having once rather
+   than three times. */
+
+.page {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--s10) var(--s5) var(--s9);
+}
+
+/* The measure belongs on the individual elements, not on the wrapper: a
+   22ch cap here was inherited by the lede inside it, squeezing a 54ch
+   paragraph into a narrow ragged column and breaking the h1 over four
+   lines. */
+.head {
+  margin-bottom: var(--s8);
+}
+
+.head h1 {
+  font-size: clamp(32px, 5vw, 60px);
+  max-width: 18ch;
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: var(--s3);
+}
+
+.lede {
+  max-width: 54ch;
+  margin-top: var(--s5);
+  font-size: clamp(17px, 1.6vw, 19px);
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+.prose {
+  max-width: var(--measure-prose);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+  font-size: 16.5px;
+  line-height: 1.75;
+}
+
+.prose h2 {
+  font-size: clamp(22px, 2.4vw, 28px);
+  margin-top: var(--s6);
+}
+
+.prose a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 1px;
+  transition: background-color var(--dur-fast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .prose a:hover {
+    background: var(--sunk);
+  }
+}
+
+/* The fact table closes the page: a compact, scannable summary of the same
+   claims the prose makes, in a form you can check at a glance. */
+.facts {
+  margin: var(--s9) 0 0;
+  border-top: 1px solid var(--rule-strong);
+  display: grid;
+  gap: 0;
+  max-width: var(--measure-prose);
+}
+
+.facts > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s2) var(--s5);
+  padding: var(--s4) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.facts dt {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.facts dd {
+  margin: 0;
+  font-size: 15.5px;
+  text-align: right;
+}

@@ -1,0 +1,417 @@
+/* Single-product page. Tokens only. */
+
+.page {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--s8) var(--s5) var(--s10);
+}
+
+.layout {
+  display: grid;
+  gap: var(--s8);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    /* 45/55 */
+    grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+    gap: var(--s9);
+  }
+}
+
+/* ---- left: purchase ---------------------------------------------------- */
+
+.buy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+@media (min-width: 900px) {
+  .buy {
+    position: sticky;
+    top: 88px; /* clears the sticky nav */
+  }
+}
+
+.media {
+  background: var(--sunk);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-surface);
+  overflow: hidden;
+  margin-bottom: var(--s2);
+}
+
+.media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.name {
+  font-size: clamp(24px, 2.8vw, 32px);
+  max-width: 20ch;
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+}
+
+.priceValue {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.priceUnit {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding: 0;
+  margin-bottom: var(--s2);
+}
+
+/* ---- size selector ----------------------------------------------------- */
+
+.sizes {
+  border: 0;
+  padding: 0;
+  margin: var(--s2) 0 0;
+}
+
+.sizeRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--s3);
+}
+
+/* Both options visible at once, each showing its own price — the choice is
+   between two known quantities, not a dropdown to go hunting in. */
+.size {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) ease,
+    background-color var(--dur-fast) ease;
+}
+
+/* Selection is carried by a 2px inset ring rather than a border width
+   change: a thicker border would reflow the label inside it every time the
+   variant changed. */
+.size[data-selected] {
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .size:hover {
+    background: var(--paper);
+  }
+}
+
+.sizeInput {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.sizeInput:focus-visible + .sizeWeight {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.sizeWeight {
+  font-weight: 600;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.sizePrice {
+  font-size: 14px;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- quantity ---------------------------------------------------------- */
+
+.qtyRow {
+  margin-top: var(--s2);
+}
+
+.qty {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-control);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.qty button {
+  width: 44px;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) ease;
+}
+
+.qty button:disabled {
+  color: var(--ink-faint);
+  cursor: not-allowed;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .qty button:not(:disabled):hover {
+    background: var(--sunk);
+  }
+}
+
+.qty input {
+  width: 52px;
+  border: 0;
+  border-inline: 1px solid var(--rule);
+  text-align: center;
+  background: transparent;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.qty input::-webkit-outer-spin-button,
+.qty input::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+/* ---- actions ----------------------------------------------------------- */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  margin-top: var(--s3);
+}
+
+/* The WhatsApp mark. `currentColor`, so it inherits the button's ink and
+   stays correct through the hover inversion without a second rule. */
+.ctaIcon {
+  width: 18px;
+  height: 18px;
+  margin-right: var(--s2);
+  flex-shrink: 0;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-height: 48px;
+  padding: 0 var(--s5);
+  border-radius: var(--r-control);
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  /* These were <button>s originally; the WhatsApp CTA is an <a>, which
+     brings its own underline. */
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+
+.cta:active {
+  transform: scale(0.97);
+}
+
+/* Ink on gold — gold is a fill, never text. */
+.ctaPrimary {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.ctaGhost {
+  background: transparent;
+  border-color: var(--rule-strong);
+  color: var(--ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ctaPrimary:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .ctaGhost:hover {
+    border-color: var(--ink);
+    background: var(--surface);
+  }
+}
+
+/* ---- right: supporting content ----------------------------------------- */
+
+.support {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s7);
+}
+
+/* The trust strip. This is the brand's actual differentiator, so it leads
+   the column and is built as a destination, not a disclaimer: gold ground,
+   ink on top, and it reads as the one thing to click. */
+.trust {
+  display: block;
+  padding: var(--s5);
+  border-radius: var(--r-surface);
+  background: var(--gold);
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.trust:active {
+  transform: scale(0.995);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .trust:hover .trustBody {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.trustBatch {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: var(--s2);
+}
+
+.trustClaim {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(19px, 2.2vw, 24px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.trustBody {
+  display: block;
+  margin-top: var(--s2);
+  font-size: 14.5px;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.blockTitle {
+  font-size: 17px;
+}
+
+.prose {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-muted);
+  max-width: 58ch;
+}
+
+.steps {
+  margin: 0;
+  padding-left: var(--s5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  max-width: 56ch;
+}
+
+.steps li::marker {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+/* ---- pack details ------------------------------------------------------ */
+
+.details {
+  margin: 0;
+  border-top: 1px solid var(--rule-strong);
+}
+
+/* Fixed label column: the value can change length without moving the
+   labels or the rows beneath it. */
+.details > div {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: var(--s4);
+  padding: var(--s3) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+@media (max-width: 480px) {
+  .details > div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+.details dt {
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+.details dd {
+  margin: 0;
+  font-size: 15px;
+}
+
+.pending {
+  color: var(--ink-muted);
+  font-size: 15px;
+  font-style: italic;
+}
+
+.ingredients {
+  margin: 0;
+  padding-left: var(--s5);
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--ink-muted);
+}

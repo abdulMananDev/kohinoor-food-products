@@ -1,0 +1,222 @@
+/* New Fast Tea design system — "Sachet".
+ *
+ * The product is an instant mix in a laminated sachet, packed by an agency in
+ * Thane and sold off a shelf. The site's job is to be believed: it answers a
+ * contamination advisory with a signed NABL lab report. So the system is
+ * built as packaging-plus-paperwork, not as a lifestyle tea brand.
+ *
+ * Two rules hold the whole thing together:
+ *
+ *   1. Gold is a FILL, never text. #e9a41b on paper is 2.0:1 — it fails as
+ *      type and always will. With ink on top it is 8.9:1, and on --deep it
+ *      is 8.1:1. So: gold blocks, gold rules, gold marks. No gold words on
+ *      a light ground, ever.
+ *   2. Colour is rationed. Gold is the brand; green and red belong to the
+ *      lab verdict and nothing else. Nothing on this site is chromatic for
+ *      decoration, so when something IS coloured, it means something.
+ *
+ * Elevation runs backwards on purpose: the page is the slightly grey one and
+ * panels are pure white, so a surface lifts by being brighter than its
+ * ground. That buys hierarchy without a single shadow.
+ *
+ * Tokens are the single source of truth. No surface should ever name a
+ * literal colour; if a value is needed that isn't here, the token set is
+ * wrong. */
+
+:root {
+  /* Grounds */
+  --paper: #faf8f3; /* the page */
+  --surface: #ffffff; /* panels, cards — brighter than the page */
+  --sunk: #f2eee5; /* the one recessed field */
+  --deep: #1c1a17; /* full-bleed dark sections. Never pure #000. */
+  --rule: #e6e2d9;
+  --rule-strong: #cfc9bc;
+
+  /* Ink */
+  --ink: #101010; /* 17.9:1 on paper */
+  --ink-muted: #5b5852; /*  6.7:1 on paper, AA for body */
+  /* Every use of this token on the site turned out to be 11-13px text —
+     eyebrows, meta lines, table labels, timeline dates — which the old
+     #8b8781 failed at 3.4:1. Retuned to clear AA for small text on all
+     three grounds it actually sits on: 5.0:1 on paper, 5.3:1 on surface,
+     4.6:1 on sunk. Still clearly lighter than --ink-muted, so the
+     hierarchy it existed for survives. */
+  --ink-faint: #6f6b64;
+  --ink-on-deep: #f3f1ec; /* 16.5:1 on --deep */
+
+  /* Brand. See rule 1 above: fill only. */
+  --gold: #e9a41b; /* 8.9:1 under --ink, 8.1:1 on --deep */
+  --gold-deep: #a8710a; /* 4.6:1 on paper — the ONE gold that may be text */
+
+  /* The verdict pair. Used for lab results, never as decoration. */
+  --cleared: #12674a; /* 6.5:1 on paper */
+  --cleared-wash: #e4efe9;
+  --restricted: #a81f1b; /* 6.9:1 on paper */
+  --restricted-wash: #f8e6e4;
+
+  /* Radius. Controls 4, surfaces 14, nothing else, no pills. */
+  --r-control: 4px;
+  --r-surface: 14px;
+
+  /* Space, 4px base */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+  --s9: 96px;
+  --s10: 128px;
+
+  /* Type. Bricolage Grotesque (display) + IBM Plex Sans (body/UI) + IBM Plex
+     Mono (data), set in layout.tsx.
+     Bricolage is an industrial grotesque with real width and optical-size
+     axes — it reads as packaging, not as a magazine, which is the register
+     this brand actually occupies. Plex Sans and Plex Mono are a documentation
+     family by one designer, so a batch ID and the sentence around it belong
+     to the same voice. */
+  --font-display: var(--font-display-family), "Helvetica Neue", sans-serif;
+  --font-sans:
+    var(--font-sans-family), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-mono-family), ui-monospace, "SF Mono", monospace;
+
+  --font-size-base: 17px;
+  --measure-prose: 66ch; /* reading column */
+  --measure: 1180px; /* page */
+  --spine: 190px; /* the timeline's label column on /quality */
+
+  /* Motion. Entering elements ease out; nothing runs long enough to wait on.
+     Exits are shorter than entrances — the system should feel like it is
+     responding, not performing. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-fast: 160ms;
+  --dur: 220ms;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/* Batch IDs, mg/kg values, report numbers, dates — tabular alignment matters
+   wherever a reader might compare two rows. */
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The skip link is sr-only until it is focused, then it has to be visible —
+   a skip link nobody can see is not a skip link. */
+.sr-only:focus-visible {
+  position: fixed;
+  top: var(--s3);
+  left: var(--s3);
+  z-index: 100;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: var(--s3) var(--s4);
+  clip-path: none;
+  background: var(--gold);
+  color: var(--ink);
+  border-radius: var(--r-control);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* One focus ring for the whole site. Gold would fail here — a focus
+   indicator needs 3:1 against what surrounds it — so the ring is ink. */
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* On dark grounds the ink ring disappears, so it flips. */
+[data-ground="deep"] a:focus-visible,
+[data-ground="deep"] button:focus-visible {
+  outline-color: var(--gold);
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    /* Movement removed, opacity kept — an element still explains itself by
+       appearing, it just doesn't travel to do it. */
+    animation-name: fade !important;
+    animation-duration: 200ms !important;
+    animation-delay: 0ms !important;
+    transition-property:
+      opacity, color, background-color, border-color !important;
+  }
+}

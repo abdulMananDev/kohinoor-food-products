@@ -1,0 +1,431 @@
+/* Home page.
+ *
+ * Elevation is brightness, not shadow: --paper is the page, --surface lifts,
+ * --sunk recedes, --deep is the one full-bleed dark band. Nothing here casts
+ * a shadow, so a card reads as raised purely by being brighter than what it
+ * sits on — which also means it survives being moved onto a different
+ * ground without restyling. */
+
+.inner {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding-inline: var(--s5);
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: var(--s3);
+}
+
+.lede {
+  font-size: clamp(17px, 1.6vw, 19px);
+  line-height: 1.6;
+  color: var(--ink-muted);
+  max-width: 58ch;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s5);
+  flex-wrap: wrap;
+  margin-bottom: var(--s7);
+}
+
+.sectionHead h2,
+.proofHead h2,
+.closing h2,
+.ritualText h2 {
+  font-size: clamp(28px, 3.6vw, 44px);
+}
+
+.quietLink {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-strong);
+  padding-bottom: 2px;
+  transition:
+    color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .quietLink:hover {
+    color: var(--ink);
+    border-color: var(--gold);
+  }
+}
+
+/* ---- CTAs ----------------------------------------------------------- */
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 var(--s6);
+  border-radius: var(--r-control);
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+
+.cta:active {
+  transform: scale(0.97);
+}
+
+/* Gold is a fill and the label sits on top of it — the only way gold can
+   carry text at accessible contrast (8.9:1). */
+.ctaPrimary {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.ctaGhost {
+  background: transparent;
+  border-color: var(--rule-strong);
+  color: var(--ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ctaPrimary:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .ctaGhost:hover {
+    border-color: var(--ink);
+    background: var(--surface);
+  }
+}
+
+/* ---- 2 proof -------------------------------------------------------- */
+
+.proof {
+  padding-block: var(--s10) var(--s9);
+}
+
+.proofHead {
+  max-width: 62ch;
+  margin-bottom: var(--s8);
+}
+
+.proofHead .lede {
+  margin-top: var(--s4);
+}
+
+.figures {
+  list-style: none;
+  margin: 0 0 var(--s7);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-surface);
+  overflow: hidden;
+}
+
+/* 1px gaps over a rule-coloured ground: the hairlines between figures are
+   the grid itself, so there are no borders to double up at the seams. */
+.figure {
+  background: var(--surface);
+  padding: var(--s6) var(--s5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  animation: rise 420ms var(--ease-out) both;
+}
+
+.figureValue {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.figureLabel {
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.figureSub {
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+/* ---- 3 the offer ---------------------------------------------------- */
+
+/* One SKU in two sizes, so this is a single offer panel, not a card grid.
+   The grid and its card styles were removed with the placeholder products. */
+
+.products {
+  padding-block: var(--s9);
+  background: var(--sunk);
+}
+
+.offer {
+  display: grid;
+  gap: var(--s5);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-surface);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform var(--dur) var(--ease-out),
+    border-color var(--dur) ease;
+}
+
+@media (min-width: 760px) {
+  .offer {
+    grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+    gap: 0;
+    align-items: center;
+  }
+}
+
+.offer:active {
+  transform: scale(0.995);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .offer:hover {
+    border-color: var(--rule-strong);
+  }
+
+  .offer:hover .cardArrow {
+    transform: translateX(3px);
+  }
+}
+
+.offerMedia {
+  display: block;
+  background: var(--sunk);
+}
+
+.offerMedia img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 320px;
+  object-fit: cover;
+}
+
+.offerBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  padding: var(--s6);
+}
+
+.offerName {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.4vw, 27px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  max-width: 20ch;
+}
+
+.offerPrices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+}
+
+.offerPrice {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  padding: var(--s2) var(--s4);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-control);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.offerWeight {
+  font-weight: 600;
+}
+
+.offerCta {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cardArrow {
+  transition: transform var(--dur) var(--ease-out);
+}
+
+/* ---- 4 sourcing ----------------------------------------------------- */
+
+.sourcing {
+  background: var(--deep);
+  color: var(--ink-on-deep);
+  padding-block: var(--s10);
+}
+
+.sourcingGrid {
+  display: grid;
+  gap: var(--s7);
+}
+
+@media (min-width: 900px) {
+  .sourcingGrid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--s10);
+    align-items: start;
+  }
+}
+
+.sourcingTitle {
+  font-size: clamp(30px, 4vw, 52px);
+  max-width: 16ch;
+}
+
+.sourcingBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+  font-size: 16.5px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--ink-on-deep) 78%, transparent);
+  max-width: 56ch;
+}
+
+.spec {
+  margin: var(--s3) 0 0;
+  display: grid;
+  gap: 0;
+  border-top: 1px solid color-mix(in srgb, var(--ink-on-deep) 18%, transparent);
+}
+
+.spec > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s5);
+  padding: var(--s3) 0;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--ink-on-deep) 12%, transparent);
+}
+
+.spec dt {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink-on-deep) 55%, transparent);
+}
+
+.spec dd {
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink-on-deep);
+  text-align: right;
+}
+
+/* ---- 5 ritual ------------------------------------------------------- */
+
+.ritual {
+  background: var(--sunk);
+  padding-block: var(--s10);
+}
+
+.ritualGrid {
+  display: grid;
+  gap: var(--s7);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .ritualGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--s9);
+  }
+}
+
+/* HeroVideo puts this class directly on the <img>/<video>, so forcing an
+   aspect-ratio here reshapes the media itself. Without object-fit the frame
+   is stretched to fit the box rather than cropped to it. */
+.ritualMedia {
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--r-surface);
+  display: block;
+  background: var(--rule);
+}
+
+.ritualText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+.ritualText p {
+  font-size: 16.5px;
+  line-height: 1.7;
+  color: var(--ink-muted);
+  max-width: 46ch;
+}
+
+/* ---- 6 closing ------------------------------------------------------ */
+
+.closing {
+  padding-block: var(--s10);
+  text-align: center;
+}
+
+.closing .inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s5);
+}
+
+.closing .lede {
+  max-width: 46ch;
+}
+
+.closingActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s3);
+  margin-top: var(--s3);
+}
+
+/* ---- motion --------------------------------------------------------- */
+
+/* One reveal keyframe for the whole page. Transform and opacity only, so
+   nothing here can shift layout. prefers-reduced-motion is handled globally
+   in globals.css — it swaps animation-name to `fade` and zeroes delays. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}

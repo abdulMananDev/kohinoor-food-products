@@ -1,0 +1,86 @@
+---
+title: "How we test, and what testing cannot tell you"
+slug: lab-testing-at-new-fast-tea
+description: "What an NABL-accredited panel actually checks, why a batch number matters more than a brand promise, and the limits of any single report."
+publishedAt: "2026-08-14"
+track: product
+tags:
+  - process
+  - lab-testing
+---
+
+Every claim on this site is attached to a batch number, because that is the
+only unit a laboratory can actually test. A brand cannot be tested. A batch
+can.
+
+## What accreditation means
+
+A laboratory accredited by NABL to ISO/IEC 17025:2017 has been assessed on
+its methods, its equipment calibration, and its competence to run the
+specific tests listed on its certificate. The certificate has a scope and an
+expiry date, and both are worth checking — ours are printed next to every
+report we publish.
+
+Accreditation does not mean the laboratory checked everything. It means the
+things it did check were checked properly.
+
+## What a panel covers, and what it doesn't
+
+A test panel is a list. Seven dyes on a report means seven dyes were looked
+for. It says nothing about an eighth.
+
+This is the single most common way a clean-looking report misleads people,
+so on this site an untested parameter is rendered as its own state — never
+folded in with the passes:
+
+<LabTable caption="The three outcomes, as they appear on our result tables.">
+  <LabResult
+    analyte="Looked for, and absent"
+    method="HPLC"
+    result="Not detected"
+    limit="Absent"
+    state="not-detected"
+  />
+  <LabResult
+    analyte="Measured, and under the limit"
+    method="HPLC"
+    result="0.42 mg/kg"
+    limit="10 mg/kg"
+    state="within-limit"
+    note="An illustrative value, not a result from any batch."
+  />
+  <LabResult
+    analyte="Not on the panel"
+    method="—"
+    state="not-tested"
+    note="No sample was analysed for this."
+  />
+</LabTable>
+
+The middle row matters as much as the first. “Within limit” is a real
+measurement of something that is present in a permitted amount — it is not
+the same claim as “not detected”, and we do not present them as though they
+were.
+
+<Disclosure title="What we cannot promise">
+
+A report covers the sample that reached the laboratory, on the date it was
+received. It is evidence about that batch. It is not a guarantee about a
+batch packed six months later, which is why we test them separately and
+publish each one.
+
+</Disclosure>
+
+## Reading a report yourself
+
+Three things worth checking on any laboratory report, ours included:
+
+1. **The batch and the dates.** Does the batch on the report match the batch
+   on the packet in your hand? Is the analysis date after the concern that
+   prompted it?
+2. **The parameter list.** What was actually tested, and what is missing?
+3. **The accreditation.** Which body, which certificate number, and is it
+   still valid?
+
+Our published results are indexed by batch under
+[Transparency](/transparency), with the signed PDF attached to each one.

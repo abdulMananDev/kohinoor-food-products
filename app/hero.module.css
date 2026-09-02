@@ -1,0 +1,218 @@
+/* Hero over hero-meadow.jpg.
+ *
+ * The photograph (1408x768): pale sky across the top, a matka of chai on a
+ * stone dead centre, dandelion meadow across the bottom. Measured rows —
+ * steam reaches y≈230, the pot rim is y≈400, the pot and stone bottom out at
+ * y≈610, and the grass line runs y≈460 at the edges.
+ *
+ * So the usable area for type is the sky: source rows 0..~380, just under
+ * half the image height, full width. That is the whole layout constraint.
+ * Content is anchored to the TOP of the section rather than centred, so it
+ * grows downward into the sky instead of outward across the pot.
+ *
+ * (An earlier version of this file sliced the image in two and stretched a
+ * white gap between the halves. That was built for a completely different
+ * photograph — mountains over an empty white band — and slicing this one
+ * cuts the pot in half. Single full-bleed image now.) */
+
+.hero {
+  position: relative;
+  min-height: 86svh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-block: clamp(40px, 7vh, 96px) var(--s8);
+  overflow: hidden;
+  background: var(--paper);
+  isolation: isolate;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    min-height: 92svh;
+  }
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+/* Vertical cropping only happens on very wide, short viewports (container
+   aspect > 1.833). Centred is the right anchor there: it trims sky and
+   grass evenly and keeps the pot and its stone whole, which biasing to
+   either edge would not. */
+.media img {
+  object-fit: cover;
+  object-position: center 45%;
+}
+
+/* Paper at the top fading out before the pot rim. On a wide screen this is
+   nearly invisible; on a narrow one, where the type reaches further down the
+   sky, it is what keeps the headline off the steam. */
+/* Measured across the sky where the type sits (source rows 60-430): ink is
+   14.5-17:1 and the muted subhead 5.4-6.4:1, so contrast is not the
+   problem — drift is. The samples only fail at the pot itself (1.95:1), so
+   the scrim's job is to guarantee legibility if the type ever reaches that
+   far down at an unusual viewport ratio, not to rescue a weak baseline.
+   Hence a longer, deeper ramp that is still fully transparent before the
+   pot rim. */
+.scrim {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 68%;
+  z-index: -1;
+  background: linear-gradient(
+    to bottom,
+    var(--paper) 0%,
+    color-mix(in srgb, var(--paper) 90%, transparent) 30%,
+    color-mix(in srgb, var(--paper) 58%, transparent) 55%,
+    color-mix(in srgb, var(--paper) 22%, transparent) 78%,
+    transparent 100%
+  );
+}
+
+/* ---- content -------------------------------------------------------- */
+
+.inner {
+  position: relative;
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 0 var(--s5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--s4);
+}
+
+.title {
+  font-size: clamp(34px, 6.4vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 0;
+  max-width: 15ch;
+  color: var(--ink);
+}
+
+.sub {
+  margin: 0;
+  max-width: 40ch;
+  font-family: var(--font-sans);
+  font-size: clamp(16px, 1.9vw, 20px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink-muted);
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s3);
+  margin-top: var(--s3);
+}
+
+/* Stacked on narrow screens rather than left to wrap, so the two buttons
+   are the same width and the primary always sits on top. */
+@media (max-width: 479px) {
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+}
+
+.ctaIcon {
+  width: 18px;
+  height: 18px;
+  margin-right: var(--s2);
+  flex-shrink: 0;
+}
+
+/* ---- CTAs ----------------------------------------------------------- */
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px; /* touch target */
+  padding: 0 var(--s5);
+  border-radius: var(--r-control);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border: 1px solid transparent;
+  /* Named properties, never `all`. Transform gets ease-out so the press
+     reads instantly; colour gets plain ease, which suits a hover. */
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+
+.cta:active {
+  transform: scale(0.97);
+}
+
+/* Ink on gold, never white: gold is a fill and the label sits on top of it.
+   #101010 on #e9a41b is 8.9:1; white on gold would be 1.9:1. */
+.primary {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+/* The ghost sits on a photograph, so it needs its own ground — a bare
+   outline over sky reads as a rendering artefact rather than a button. */
+.ghost {
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  backdrop-filter: blur(4px);
+  border-color: var(--rule-strong);
+  color: var(--ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .primary:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .ghost:hover {
+    background: var(--surface);
+    border-color: var(--ink);
+  }
+}
+
+/* ---- entrance ------------------------------------------------------- */
+
+/* First paint, so this is CSS rather than JS: it runs off the main thread
+   while the page is still doing its heaviest work. Transform and opacity
+   only. `both` holds the from-state through the delay, so nothing flashes
+   at full opacity first. */
+.reveal {
+  animation: rise 380ms var(--ease-out) both;
+}
+
+.d1 {
+  animation-delay: 60ms;
+}
+
+.d2 {
+  animation-delay: 120ms;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* prefers-reduced-motion is handled globally in globals.css, which swaps
+   animation-name to `fade` and zeroes every delay — movement gone, opacity
+   kept. Nothing to repeat here; the global rule already wins on !important. */

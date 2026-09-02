@@ -1,0 +1,23 @@
+{
+  "_note": "Schema example only. The .todo extension keeps it out of the site — allBatches() reads *.json. Rename to NFT-142.json once real numbers arrive.",
+  "batchId": "NFT-142",
+  "harvest": "2026-05",
+  "testedOn": "2026-07-14",
+  "lab": {
+    "name": "TODO — lab name",
+    "accreditation": "NABL",
+    "reportUrl": "TODO — /reports/NFT-142.pdf"
+  },
+  "parameters": [
+    {
+      "name": "Lead (Pb)",
+      "result": null,
+      "unit": "mg/kg",
+      "limit": 2.0,
+      "detectionLimit": 0.01,
+      "standard": "FSSAI",
+      "pass": true
+    }
+  ],
+  "products": ["kashmiri-green-50g"]
+}

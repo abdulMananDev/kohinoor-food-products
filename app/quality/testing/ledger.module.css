@@ -1,0 +1,153 @@
+.page {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: var(--s9) var(--s5);
+}
+
+/* The ledger: narrow spine of labels, wide column of content, one shared rule. */
+.ledger {
+  display: grid;
+  grid-template-columns: var(--spine) 1fr;
+  gap: 0 var(--s7);
+}
+.spine {
+  border-right: 1px solid var(--rule);
+  padding-right: var(--s5);
+}
+.spine dt {
+  color: var(--ink-faint);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.spine dd {
+  margin: var(--s1) 0 var(--s5);
+  color: var(--ink);
+}
+@media (max-width: 720px) {
+  .ledger {
+    grid-template-columns: 1fr;
+  }
+  .spine {
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+    padding: 0 0 var(--s5);
+    margin-bottom: var(--s5);
+  }
+}
+
+/* Verdict badge — the one and only use of the semantic pair. */
+.verdict {
+  display: inline-block;
+  padding: var(--s1) var(--s3);
+  border-radius: var(--r-control);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.cleared {
+  background: var(--cleared-wash);
+  color: var(--cleared);
+}
+.restricted {
+  background: var(--restricted-wash);
+  color: var(--restricted);
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-surface);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.table caption {
+  padding: var(--s4) var(--s5);
+  text-align: left;
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--rule);
+}
+.table a {
+  transition: color 160ms var(--ease-out);
+}
+.table th,
+.table td {
+  padding: var(--s4) var(--s5);
+  border-bottom: 1px solid var(--rule);
+  vertical-align: baseline;
+}
+.table thead th {
+  color: var(--ink-muted);
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.num {
+  text-align: right;
+}
+
+/* Inline bar: how close a result sits to its limit. Deliberately colorless —
+   rows never carry the semantic pair. */
+.bar {
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.bar > span {
+  display: block;
+  height: 100%;
+  background: var(--rule-strong);
+}
+
+/* The entire motion budget for this site. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.reveal {
+  animation: rise 260ms var(--ease-out) backwards;
+}
+
+/* Colour is reserved for the verdict pair, so links carry their meaning
+   with an underline, not a hue. */
+.report a,
+.table a {
+  color: var(--ink);
+  text-underline-offset: 3px;
+}
+
+.prose {
+  max-width: var(--measure-prose);
+  color: var(--ink-muted);
+}
+.empty {
+  padding: var(--s7) var(--s5);
+  color: var(--ink-muted);
+}
+
+/* Hover gated so it cannot false-positive on tap. */
+@media (hover: hover) and (pointer: fine) {
+  .table a:hover {
+    color: var(--gold-deep);
+  }
+}
+
+/* Colour stays reserved for the verdict pair. */
+.empty a {
+  color: var(--ink);
+  text-underline-offset: 3px;
+}
