@@ -5,7 +5,7 @@ import s from "./ledger.module.css";
 export const revalidate = 2592000; // 30 days — batches land monthly at most
 
 export const metadata = {
-  title: "Batch test results — New Fast Tea",
+  title: "Batch test results",
   description:
     "Every New Fast Tea batch, with the full lab report for heavy metals and pesticide residues.",
 };

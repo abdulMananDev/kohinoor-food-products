@@ -5,7 +5,7 @@ import c from "../home.module.css";
 export const revalidate = 2592000;
 
 export const metadata = {
-  title: "The Batch 10 advisory, and what we tested — New Fast Tea",
+  title: "The Batch 10 advisory, and what we tested | New Fast Tea",
   description:
     "An advisory was issued about Batch No. 10. We sent Batch No. 12 to an NABL-accredited laboratory for synthetic dye analysis. Seven dyes, all Not Detected. Full report and scope published here.",
 };

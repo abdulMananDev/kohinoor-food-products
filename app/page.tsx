@@ -16,14 +16,17 @@ import s from "./home.module.css";
    6 closing   the only centred block on the page                        */
 
 export const metadata: Metadata = {
-  title: "Assam tea, tested batch by batch",
+  title: {
+    absolute:
+      "New Fast Tea | Assam tea, Matka Chai ka maza ab Garh par tested batch by batch",
+  },
   description:
     "Instant mix and loose leaf blended from Assam-origin tea, packed in Thane. Every batch is tested by an NABL-accredited laboratory and every report is published in full.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "/",
-    title: "New Fast Tea — Assam tea, tested batch by batch",
+    title: "New Fast Tea | Assam tea, Matka Chai ka Maza Garh par",
     description:
       "Every batch is tested by an NABL-accredited laboratory and every report is published in full.",
     siteName: SITE_NAME,

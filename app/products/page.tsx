@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: `${SITE_URL}/products`,
-    title: product.name,
+    title: `${product.name} — ${SITE_NAME}`,
     description: "Instant mix tea from Assam leaf, packed in Thane.",
     siteName: SITE_NAME,
     images: [{ url: product.image }],
