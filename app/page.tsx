@@ -134,7 +134,7 @@ export default function Home() {
         <div className={s.inner}>
           <div className={s.ritualGrid}>
             <HeroVideo
-              src="/her-o.mp4"
+              src="/hero.mp4"
               poster="/hero-poster.jpg"
               className={s.ritualMedia}
             />

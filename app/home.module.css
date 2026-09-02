@@ -370,7 +370,7 @@
    aspect-ratio here reshapes the media itself. Without object-fit the frame
    is stretched to fit the box rather than cropped to it. */
 .ritualMedia {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 4 / 3;
   width: 100%;
   object-fit: cover;
   object-position: center;

@@ -53,9 +53,20 @@ export default function HeroVideo({
       muted
       loop
       playsInline
-      preload="none"
+      /* Not "none": that tells the browser not to fetch, which contradicts
+         autoPlay and leaves the element sitting at readyState 0. Deferring
+         the mount to idle is what keeps this off the critical path — the
+         element does not exist until then, so preload has nothing to
+         compete with by the time it is set. */
+      preload="auto"
       aria-hidden
       tabIndex={-1}
+      /* React sets `muted` as a property but not as an attribute, and some
+         browsers consult the attribute when applying the autoplay policy.
+         Setting it on the node directly covers both. */
+      ref={(el) => {
+        if (el) el.muted = true;
+      }}
     />
   );
 }
