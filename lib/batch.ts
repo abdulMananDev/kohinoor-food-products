@@ -28,13 +28,12 @@ export const Batch = z.object({
 export type Batch = z.infer<typeof Batch>;
 export type Parameter = z.infer<typeof Parameter>;
 
-/** Overall verdict. One per batch — the only place cleared/restricted is used. */
+/** Overall verdict. One per batch - the only place cleared/restricted is used. */
 export const verdict = (b: Batch) =>
   b.parameters.every((p) => p.pass) ? "cleared" : "restricted";
 
 /** Fraction of the limit, 0–1, for the inline bar. Non-detects read as 0. */
-export const share = (p: Parameter) =>
-  Math.min((p.result ?? 0) / p.limit, 1);
+export const share = (p: Parameter) => Math.min((p.result ?? 0) / p.limit, 1);
 
 export const display = (p: Parameter) =>
   p.result === null ? `< ${p.detectionLimit}` : String(p.result);
@@ -45,7 +44,9 @@ export function allBatches(): Batch[] {
   return fs
     .readdirSync(dir)
     .filter((f) => f.endsWith(".json"))
-    .map((f) => Batch.parse(JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"))))
+    .map((f) =>
+      Batch.parse(JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"))),
+    )
     .sort((a, b) => b.testedOn.localeCompare(a.testedOn));
 }
 

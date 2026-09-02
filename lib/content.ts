@@ -5,7 +5,7 @@ import { z } from "zod";
 
 /* The content layer.
  *
- * Every helper here runs at build time only — the pages that use them are
+ * Every helper here runs at build time only - the pages that use them are
  * statically generated, so nothing in this file ships to the browser.
  *
  * Validation is deliberately fatal. A transparency post with a malformed
@@ -29,7 +29,10 @@ export const frontmatterSchema = z
     title: z.string().min(1),
     slug: z
       .string()
-      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "must be a lowercase kebab-case slug"),
+      .regex(
+        /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+        "must be a lowercase kebab-case slug",
+      ),
     description: z.string().min(1),
     publishedAt: isoDate,
     updatedAt: isoDate.optional(),
@@ -127,7 +130,7 @@ export type BatchRow = {
 
 /* Derived from the posts rather than kept in a second list, so a batch can
    never appear in the table without a post explaining it. A batch with no
-   labReport is reported as pending — never as clear. */
+   labReport is reported as pending - never as clear. */
 export function getBatches(): BatchRow[] {
   const rows = getAllPosts()
     .filter((p): p is Post & { batch: string } => Boolean(p.batch))
@@ -163,18 +166,18 @@ export function formatDate(iso: string): string {
 
 /* The origin every canonical, OG tag, sitemap entry and feed link is built
    from. Resolution order:
-   1. NEXT_PUBLIC_SITE_URL — set this to the real domain in Vercel's project
+   1. NEXT_PUBLIC_SITE_URL - set this to the real domain in Vercel's project
       settings. It is the only one that survives a custom domain.
-   2. VERCEL_PROJECT_PRODUCTION_URL — the project's stable production host,
+   2. VERCEL_PROJECT_PRODUCTION_URL - the project's stable production host,
       set by Vercel on every deployment including previews, so a preview
       build still points canonicals at production rather than at itself.
-   3. VERCEL_URL — the per-deployment host. Last resort.
+   3. VERCEL_URL - the per-deployment host. Last resort.
    4. localhost, for local development.
 
    Without 1, a custom domain will still emit *.vercel.app URLs, so set it. */
 /* Normalises whatever was typed into an env var into an absolute origin.
    "newfasttea.com", "www.newfasttea.com/" and "https://newfasttea.com/"
-   all resolve to the same thing — a bare hostname with no scheme is the
+   all resolve to the same thing - a bare hostname with no scheme is the
    easy mistake to make in a Vercel settings field, and it throws an
    opaque ERR_INVALID_URL from `new URL()` at module evaluation if it
    reaches metadataBase unchecked. */
@@ -211,7 +214,7 @@ export const SITE_NAME = "New Fast Tea";
 
 /* One share image for the whole site. 1376x768 clears the 1200x630 minimum
    and sits close to the 1.91:1 crop both Facebook and X use.
-   TODO: a purpose-made OG card would beat a product photo — this one has no
+   TODO: a purpose-made OG card would beat a product photo - this one has no
    wordmark on it, so a shared link is not self-identifying. */
 export const OG_IMAGE = {
   url: "/new-fast-tea-leaves.png",

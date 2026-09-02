@@ -3,7 +3,7 @@ import { getAllPosts, SITE_URL, SITE_NAME } from "@/lib/content";
 /* RSS 2.0 at /feed.xml.
  *
  * force-static so the feed is written once at build time alongside the
- * pages — this route reads the filesystem, and there is nothing here that
+ * pages - this route reads the filesystem, and there is nothing here that
  * changes between requests. */
 export const dynamic = "force-static";
 
