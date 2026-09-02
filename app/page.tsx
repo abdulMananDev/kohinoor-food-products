@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SITE_NAME, OG_IMAGE } from "@/lib/content";
+import { SITE_NAME } from "@/lib/content";
 import HeroVideo from "./hero-video";
 import Hero from "./hero";
 import Image from "next/image";
@@ -18,7 +18,7 @@ import s from "./home.module.css";
 export const metadata: Metadata = {
   title: {
     absolute:
-      "New Fast Tea | Assam tea, Matka Chai ka maza ab Garh par tested batch by batch",
+      "New Fast Tea | Assam tea, Matka Chai ka maza ab Ghar par tested batch by batch",
   },
   description:
     "Instant mix and loose leaf blended from Assam-origin tea, packed in Thane. Every batch is tested by an NABL-accredited laboratory and every report is published in full.",
@@ -26,14 +26,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/",
-    title: "New Fast Tea | Assam tea, Matka Chai ka Maza Garh par",
+    title: "New Fast Tea | Assam tea, Matka Chai ka Maza Ghar par",
     description:
       "Every batch is tested by an NABL-accredited laboratory and every report is published in full.",
     siteName: SITE_NAME,
     locale: "en_IN",
-    images: [OG_IMAGE],
   },
-  twitter: { card: "summary_large_image", images: [OG_IMAGE.url] },
+  twitter: { card: "summary_large_image" },
 };
 
 const figures = [

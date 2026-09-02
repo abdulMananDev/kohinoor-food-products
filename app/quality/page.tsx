@@ -5,9 +5,12 @@ import c from "../home.module.css";
 export const revalidate = 2592000;
 
 export const metadata = {
-  title: "The Batch 10 advisory, and what we tested | New Fast Tea",
+  title: "The Batch 10 advisory, and what we tested",
   description:
     "An advisory was issued about Batch No. 10. We sent Batch No. 12 to an NABL-accredited laboratory for synthetic dye analysis. Seven dyes, all Not Detected. Full report and scope published here.",
+  /* Without this the root layout canonical ("/") is inherited and this
+     page tells crawlers it is the homepage. */
+  alternates: { canonical: "/quality" },
 };
 
 /* Transcribed from report OT/TEA/06-01/08/26, values exactly as printed.

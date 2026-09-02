@@ -48,7 +48,7 @@ export default function Hero() {
           The <span>tea</span> from the stall, at home.
         </h1>
         <p className={`${s.sub} ${s.reveal} ${s.d1}`}>
-          Matka chai ka mazaa ab Garh par
+          Matka chai ka mazaa ab Ghar par
         </p>
         {/* The stagger is on the row, not the buttons, so the WhatsApp CTA
             inherits the same entrance as everything else here — nothing

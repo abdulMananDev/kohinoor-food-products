@@ -6,7 +6,6 @@ import {
   formatDate,
   SITE_URL,
   SITE_NAME,
-  OG_IMAGE,
 } from "@/lib/content";
 import s from "../components/prose.module.css";
 
@@ -15,6 +14,7 @@ export const metadata: Metadata = {
   description:
     "Every laboratory result New Fast Tea has published, newest first, with the batch each one covers and what it did not test.",
   alternates: { canonical: `${SITE_URL}/transparency` },
+  /* `images` is named explicitly — see the note in app/blog/page.tsx. */
   openGraph: {
     type: "website",
     url: `${SITE_URL}/transparency`,
@@ -23,9 +23,9 @@ export const metadata: Metadata = {
       "Every laboratory result New Fast Tea has published, newest first.",
     siteName: SITE_NAME,
     locale: "en_IN",
-    images: [OG_IMAGE],
+    images: ["/opengraph-image"],
   },
-  twitter: { card: "summary_large_image", images: [OG_IMAGE.url] },
+  twitter: { card: "summary_large_image", images: ["/opengraph-image"] },
 };
 
 const breadcrumbs = {

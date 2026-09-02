@@ -8,6 +8,9 @@ export const metadata = {
   title: "Batch test results",
   description:
     "Every New Fast Tea batch, with the full lab report for heavy metals and pesticide residues.",
+  /* Without this the root layout canonical ("/") is inherited and this
+     page tells crawlers it is the homepage. */
+  alternates: { canonical: "/quality/testing" },
 };
 
 export default function TestingIndex() {

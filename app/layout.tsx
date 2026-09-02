@@ -1,7 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import {
+  Bricolage_Grotesque,
+  IBM_Plex_Sans,
+  IBM_Plex_Mono,
+} from "next/font/google";
 import "./globals.css";
-import { SITE_URL, SITE_NAME, OG_IMAGE } from "@/lib/content";
+import { SITE_URL, SITE_NAME } from "@/lib/content";
 import { SiteNav, SiteFooter } from "./site-chrome";
 
 // Display. Variable (opsz, wdth, wght), so no weight array — an industrial
@@ -47,7 +51,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
     types: {
-      "application/rss+xml": [{ url: "/feed.xml", title: `${SITE_NAME} — all posts` }],
+      "application/rss+xml": [
+        { url: "/feed.xml", title: `${SITE_NAME} — all posts` },
+      ],
     },
   },
   openGraph: {
@@ -55,11 +61,9 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     locale: "en_IN",
     url: "/",
-    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    images: [OG_IMAGE.url],
   },
   robots: {
     index: true,
@@ -85,7 +89,7 @@ const orgJsonLd = {
       "@id": `${SITE_URL}/#organization`,
       name: SITE_NAME,
       url: SITE_URL,
-      logo: `${SITE_URL}${OG_IMAGE.url}`,
+      logo: `${SITE_URL}/web-app-manifest-512x512.png`,
       description:
         "Assam-origin instant mix tea and loose leaf, packed and distributed by M/s INAAM Tea Agency in Thane, Maharashtra. Every batch is tested by an NABL-accredited laboratory and every report is published.",
       address: {

@@ -8,7 +8,6 @@ import {
   formatDate,
   SITE_URL,
   SITE_NAME,
-  OG_IMAGE,
 } from "@/lib/content";
 import { mdxComponents } from "@/app/components/mdx";
 import s from "../../components/prose.module.css";
@@ -32,6 +31,11 @@ export async function generateMetadata({
     title: post.title,
     description: post.description,
     alternates: { canonical: url },
+    /* Unlike the other pages this one keeps its openGraph block, because
+       type/publishedTime/tags are worth having on an article. The cost is
+       that a page-level block replaces the inherited one instead of merging,
+       so the card from app/opengraph-image.tsx has to be named explicitly or
+       the post ends up with no og:image at all. */
     openGraph: {
       type: "article",
       url,
@@ -42,13 +46,13 @@ export async function generateMetadata({
       modifiedTime: post.updatedAt,
       tags: post.tags,
       locale: "en_IN",
-      images: [OG_IMAGE],
+      images: ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
-      images: [OG_IMAGE.url],
       title: `${post.title} — ${SITE_NAME}`,
       description: post.description,
+      images: ["/opengraph-image"],
     },
   };
 }

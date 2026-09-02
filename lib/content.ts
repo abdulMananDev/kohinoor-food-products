@@ -212,13 +212,3 @@ export const SITE_URL = resolveSiteUrl();
 
 export const SITE_NAME = "New Fast Tea";
 
-/* One share image for the whole site. 1376x768 clears the 1200x630 minimum
-   and sits close to the 1.91:1 crop both Facebook and X use.
-   TODO: a purpose-made OG card would beat a product photo - this one has no
-   wordmark on it, so a shared link is not self-identifying. */
-export const OG_IMAGE = {
-  url: "/new-fast-tea-leaves.png",
-  width: 1376,
-  height: 768,
-  alt: "Assam tea leaves with cardamom, star anise and cinnamon",
-};

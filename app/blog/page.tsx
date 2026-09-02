@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllPosts, formatDate, SITE_URL, SITE_NAME, OG_IMAGE } from "@/lib/content";
+import { getAllPosts, formatDate, SITE_URL, SITE_NAME } from "@/lib/content";
 import s from "../components/prose.module.css";
 
 export const metadata: Metadata = {
@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   description:
     "How to brew it, what the leaf grades mean, and how New Fast Tea is packed. The product track — laboratory results live under Transparency.",
   alternates: { canonical: `${SITE_URL}/blog` },
+  /* A page-level `openGraph` REPLACES the inherited object wholesale rather
+     than merging into it, so `images` has to be named here or the page ends
+     up with no og:image at all. Dropping the block instead would inherit the
+     card but also inherit the root's og:url, pointing every shared link at
+     the homepage — which is precisely what WhatsApp reads. */
   openGraph: {
     type: "website",
     url: `${SITE_URL}/blog`,
@@ -15,9 +20,9 @@ export const metadata: Metadata = {
     description: "Brewing, leaf grades, and how the tea is packed.",
     siteName: SITE_NAME,
     locale: "en_IN",
-    images: [OG_IMAGE],
+    images: ["/opengraph-image"],
   },
-  twitter: { card: "summary_large_image", images: [OG_IMAGE.url] },
+  twitter: { card: "summary_large_image", images: ["/opengraph-image"] },
 };
 
 const breadcrumbs = {

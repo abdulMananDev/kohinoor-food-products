@@ -5,6 +5,9 @@ export const metadata = {
   title: "About",
   description:
     "New Fast Tea is packed and distributed by M/s INAAM Tea Agency in Thane, Maharashtra, from Assam-origin leaf. What we do, what we don't, and how to reach us.",
+  /* Without this the root layout canonical ("/") is inherited and this
+     page tells crawlers it is the homepage. */
+  alternates: { canonical: "/about" },
 };
 
 const facts = [
