@@ -161,11 +161,39 @@ export function formatDate(iso: string): string {
   });
 }
 
-/* TODO: set NEXT_PUBLIC_SITE_URL before deploying. Canonicals, OG tags, the
-   sitemap and the feed all key off this; a wrong value is worse than an
-   obviously-local one, so the fallback is localhost rather than a guessed
-   domain. */
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "http://localhost:3000";
+/* The origin every canonical, OG tag, sitemap entry and feed link is built
+   from. Resolution order:
+   1. NEXT_PUBLIC_SITE_URL — set this to the real domain in Vercel's project
+      settings. It is the only one that survives a custom domain.
+   2. VERCEL_PROJECT_PRODUCTION_URL — the project's stable production host,
+      set by Vercel on every deployment including previews, so a preview
+      build still points canonicals at production rather than at itself.
+   3. VERCEL_URL — the per-deployment host. Last resort.
+   4. localhost, for local development.
+
+   Without 1, a custom domain will still emit *.vercel.app URLs, so set it. */
+function resolveSiteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
+  if (explicit) return explicit.replace(/\/$/, "");
+
+  const vercel =
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
+  if (vercel) return `https://${vercel.replace(/\/$/, "")}`;
+
+  return "http://localhost:3000";
+}
+
+export const SITE_URL = resolveSiteUrl();
 
 export const SITE_NAME = "New Fast Tea";
+
+/* One share image for the whole site. 1376x768 clears the 1200x630 minimum
+   and sits close to the 1.91:1 crop both Facebook and X use.
+   TODO: a purpose-made OG card would beat a product photo — this one has no
+   wordmark on it, so a shared link is not self-identifying. */
+export const OG_IMAGE = {
+  url: "/new-fast-tea-leaves.png",
+  width: 1376,
+  height: 768,
+  alt: "Assam tea leaves with cardamom, star anise and cinnamon",
+};

@@ -29,20 +29,14 @@ export type Product = {
   imageAlt: string;
 };
 
-/* Two values are deliberately blank rather than filled in.
+/* ingredients is deliberately still blank rather than filled in. The brief
+ * says "matching the pack label exactly", and the pack label has not been
+ * supplied — guessing at the composition of a food product is not a gap
+ * worth papering over on a site whose argument is that its claims can be
+ * checked. The block renders a note instead of a list until the real text
+ * is transcribed.
  *
- * fssaiLicenseNo: an FSSAI licence number is a regulatory identifier. A
- * plausible-looking wrong one printed under "Pack details" is a false
- * statement about compliance, on the one site whose entire argument is that
- * its claims can be checked. It renders as "awaiting confirmation" until
- * someone supplies the real number.
- *
- * ingredients: the brief says "matching the pack label exactly", and the
- * pack label was not supplied. Guessing at the composition of a food
- * product is the same category of mistake. The block renders a note instead
- * of a list until the real text is transcribed.
- *
- * TODO: fill both from the physical pack, then delete this comment. */
+ * TODO: transcribe the ingredients from the physical pack. */
 export const product: Product = {
   name: "New Fast Tea — Premium Instant Mix Tea",
   variants: [
@@ -50,7 +44,8 @@ export const product: Product = {
     { weightGrams: 1000, price: 480 },
   ],
   batchNumber: "No. 12",
-  fssaiLicenseNo: null,
+  // 14-digit FSSAI licence, as printed on the pack.
+  fssaiLicenseNo: "21521068000013",
   bestBeforeMonths: 9,
   packedBy: "INAAM TEA, Thane",
   ingredients: [],

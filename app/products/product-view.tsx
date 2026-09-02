@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { type Product, formatPrice, formatWeight } from "@/lib/products";
 import s from "./product.module.css";
-import { WHATSAPP_URL } from "@/lib/site";
+import { whatsappUrl } from "@/lib/site";
 function WhatsAppIcon() {
   return (
     <svg
@@ -31,6 +31,18 @@ export default function ProductView({ product }: { product: Product }) {
   const [qty, setQty] = useState(1);
 
   const variant = product.variants[variantIndex];
+
+  /* The WhatsApp opener. Kept short and scannable — it is a draft the
+     customer sees in their composer before sending, not a form submission. */
+  const orderMessage = [
+    `Hi! I would like to order ${product.name}.`,
+    "",
+    `Pack size: ${formatWeight(variant.weightGrams)} (${formatPrice(variant.price)} each)`,
+    `Quantity: ${qty}`,
+    "",
+    `Batch ${product.batchNumber}`,
+  ].join("\n");
+
   const sizeGroupId = useId();
   const qtyId = useId();
 
@@ -127,10 +139,17 @@ export default function ProductView({ product }: { product: Product }) {
         </div>
 
         {/* Ordering happens over WhatsApp, so this is the whole purchase
-            path — no basket to add to. */}
+            path — no basket to add to. The pack size and quantity chosen
+            above travel with the link, so nobody has to retype a selection
+            they already made.
+
+            No order total: delivery and any taxes are not known here, and a
+            figure in the message would read as the amount payable. The unit
+            price is stated, the arithmetic is left to the person who knows
+            the rest of it. */}
         <div className={s.actions}>
           <a
-            href={WHATSAPP_URL}
+            href={whatsappUrl(orderMessage)}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Order via WhatsApp"

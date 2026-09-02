@@ -8,6 +8,7 @@ import {
   formatDate,
   SITE_URL,
   SITE_NAME,
+  OG_IMAGE,
 } from "@/lib/content";
 import { mdxComponents } from "@/app/components/mdx";
 import s from "../../components/prose.module.css";
@@ -40,9 +41,12 @@ export async function generateMetadata({
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt,
       tags: post.tags,
+      locale: "en_IN",
+      images: [OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
+      images: [OG_IMAGE.url],
       title: post.title,
       description: post.description,
     },
@@ -62,6 +66,23 @@ export default async function Post({
   const backHref = post.track === "transparency" ? "/transparency" : "/blog";
   const backLabel = post.track === "transparency" ? "Transparency" : "Blog";
 
+  /* The page already renders a visual breadcrumb; this is the machine-
+     readable twin, so the trail shows in results rather than a bare URL. */
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: backLabel,
+        item: `${SITE_URL}${backHref}`,
+      },
+      { "@type": "ListItem", position: 3, name: post.title, item: url },
+    ],
+  };
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -80,6 +101,10 @@ export default async function Post({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
       <nav aria-label="Breadcrumb" className={s.crumbs}>

@@ -6,6 +6,7 @@ import {
   formatDate,
   SITE_URL,
   SITE_NAME,
+  OG_IMAGE,
 } from "@/lib/content";
 import s from "../components/prose.module.css";
 
@@ -21,8 +22,10 @@ export const metadata: Metadata = {
     description:
       "Every laboratory result New Fast Tea has published, newest first.",
     siteName: SITE_NAME,
+    locale: "en_IN",
+    images: [OG_IMAGE],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", images: [OG_IMAGE.url] },
 };
 
 const breadcrumbs = {

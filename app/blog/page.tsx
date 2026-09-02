@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllPosts, formatDate, SITE_URL, SITE_NAME } from "@/lib/content";
+import { getAllPosts, formatDate, SITE_URL, SITE_NAME, OG_IMAGE } from "@/lib/content";
 import s from "../components/prose.module.css";
 
 export const metadata: Metadata = {
@@ -14,8 +14,10 @@ export const metadata: Metadata = {
     title: "Blog — New Fast Tea",
     description: "Brewing, leaf grades, and how the tea is packed.",
     siteName: SITE_NAME,
+    locale: "en_IN",
+    images: [OG_IMAGE],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", images: [OG_IMAGE.url] },
 };
 
 const breadcrumbs = {
