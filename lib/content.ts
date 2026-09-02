@@ -172,13 +172,35 @@ export function formatDate(iso: string): string {
    4. localhost, for local development.
 
    Without 1, a custom domain will still emit *.vercel.app URLs, so set it. */
+/* Normalises whatever was typed into an env var into an absolute origin.
+   "newfasttea.com", "www.newfasttea.com/" and "https://newfasttea.com/"
+   all resolve to the same thing — a bare hostname with no scheme is the
+   easy mistake to make in a Vercel settings field, and it throws an
+   opaque ERR_INVALID_URL from `new URL()` at module evaluation if it
+   reaches metadataBase unchecked. */
+function normaliseOrigin(value: string): string {
+  const trimmed = value.trim().replace(/\/+$/, "");
+  const withScheme = /^https?:\/\//i.test(trimmed)
+    ? trimmed
+    : `https://${trimmed}`;
+
+  // Fail loudly and specifically rather than at the point of use.
+  try {
+    return new URL(withScheme).origin;
+  } catch {
+    throw new Error(
+      `Invalid site URL: ${JSON.stringify(value)}. Set NEXT_PUBLIC_SITE_URL to a hostname or full URL, e.g. "https://newfasttea.com".`,
+    );
+  }
+}
+
 function resolveSiteUrl(): string {
   const explicit = process.env.NEXT_PUBLIC_SITE_URL;
-  if (explicit) return explicit.replace(/\/$/, "");
+  if (explicit) return normaliseOrigin(explicit);
 
   const vercel =
     process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
-  if (vercel) return `https://${vercel.replace(/\/$/, "")}`;
+  if (vercel) return normaliseOrigin(vercel);
 
   return "http://localhost:3000";
 }
