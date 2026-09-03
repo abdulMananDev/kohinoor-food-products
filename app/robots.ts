@@ -14,7 +14,7 @@ export default function robots(): MetadataRoute.Robots {
            deliberately NOT blocked: a site whose purpose is to be quoted
            accurately about a contamination claim gains nothing by being
            unquotable. */
-        disallow: ["/_next/"],
+        disallow: ["/api/"],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
