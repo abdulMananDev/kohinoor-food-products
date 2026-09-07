@@ -86,9 +86,6 @@ export function SiteFooter() {
             <Link href="/quality" className={s.footerLink}>
               Latest report
             </Link>
-            <Link href="/quality/testing" className={s.footerLink}>
-              All batch results
-            </Link>
           </div>
 
           <div className={s.footerCol}>
@@ -98,6 +95,9 @@ export function SiteFooter() {
             </Link>
             <Link href="/blog" className={s.footerLink}>
               Blog
+            </Link>
+            <Link href="/press" className={s.footerLink}>
+              Press
             </Link>
             <Link href="/about#contact" className={s.footerLink}>
               Contact
@@ -111,7 +111,9 @@ export function SiteFooter() {
           &copy; {new Date().getFullYear()} New Fast Tea. Packed and distributed
           by M/s INAAM Tea Agency, Thane, Maharashtra.
         </p>
-        <p className={`${s.footerFine} mono`}>NABL-tested · ISO/IEC 17025:2017</p>
+        <p className={`${s.footerFine} mono`}>
+          NABL-tested · ISO/IEC 17025:2017
+        </p>
       </div>
     </footer>
   );

@@ -52,12 +52,19 @@
   background: var(--restricted-wash);
   color: var(--restricted);
 }
+/* Pending is not a pass and it is not a failure either — red here would say
+   the batch was restricted. Dashed and grey, same rule as /transparency. */
+.pending {
+  background: var(--sunk);
+  color: var(--ink-muted);
+  border: 1px dashed var(--rule-strong);
+}
 
 .panel {
   background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: var(--r-surface);
-  overflow: hidden;
+  overflow: auto;
 }
 
 .table {
@@ -150,4 +157,10 @@
 .empty a {
   color: var(--ink);
   text-underline-offset: 3px;
+}
+
+/* A batch with no report yet is stated, not left blank — an empty cell in a
+   results table reads as "nothing to report". */
+.pendingCell {
+  color: var(--ink-faint);
 }

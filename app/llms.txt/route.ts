@@ -53,7 +53,6 @@ ${batches.map((b) => `- Batch ${b.batch}: report ${b.status} - ${SITE_URL}/blog/
 
 - ${SITE_URL}/transparency - every published result, newest first, plus batch status
 - ${SITE_URL}/quality - the Batch 12 dye analysis in full, with the signed report
-- ${SITE_URL}/quality/testing - batch results index
 - ${SITE_URL}/products - the product, both pack sizes
 - ${SITE_URL}/about - who packs and distributes this tea
 

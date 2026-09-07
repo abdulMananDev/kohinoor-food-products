@@ -418,6 +418,15 @@
   margin-top: var(--s3);
 }
 
+/* The press teaser rides alongside the proof CTA rather than becoming its
+   own section — it is a pointer to a growing page, not a homepage block. */
+.proofActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3) var(--s6);
+}
+
 /* ---- motion --------------------------------------------------------- */
 
 /* One reveal keyframe for the whole page. Transform and opacity only, so

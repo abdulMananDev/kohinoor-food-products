@@ -203,12 +203,17 @@ export default function Quality() {
                 <span className="mono">TC-17494</span> to ISO/IEC 17025:2017,
                 valid until <span className="mono">26/02/2027</span>.
               </p>
-              <a className={s.action} href={REPORT_PDF}>
-                <span>Read the signed report</span>
-                <span className={s.actionIcon} aria-hidden>
-                  &#8599;
-                </span>
-              </a>
+              <div className={s.provActions}>
+                <a className={s.action} href={REPORT_PDF}>
+                  <span>Read the signed report</span>
+                  <span className={s.actionIcon} aria-hidden>
+                    &#8599;
+                  </span>
+                </a>
+                <Link className={s.provWriteup} href="/blog/batch-12-results">
+                  Read the full write-up &rarr;
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -285,7 +290,12 @@ export default function Quality() {
               <h3>Seven dyes tested, none detected</h3>
               <p>
                 The results are above, with the signed report linked alongside
-                them.
+                them. The full write-up — what the panel covered, what it did
+                not, and why Batch No. 12 is not Batch No. 10 — is at{" "}
+                <Link href="/blog/batch-12-results">
+                  Batch No. 12: seven dyes tested, none detected
+                </Link>
+                .
               </p>
             </div>
           </div>
@@ -325,7 +335,10 @@ export default function Quality() {
                 only after satisfactory test reports are received from an
                 NABL-accredited laboratory, and where applicable the necessary
                 certification. Every report is published alongside the numbers.{" "}
-                <Link href="/quality/testing">See all batch results</Link>.
+                <Link href="/transparency">See all batch results</Link>.
+              </p>
+              <p>
+                <Link href="/press">See press coverage &rarr;</Link>
               </p>
             </div>
           </div>

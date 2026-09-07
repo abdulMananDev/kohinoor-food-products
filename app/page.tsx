@@ -199,9 +199,14 @@ export default function Home() {
             ))}
           </ul>
 
-          <Link href="/quality" className={`${s.cta} ${s.ctaPrimary}`}>
-            Read the test results
-          </Link>
+          <div className={s.proofActions}>
+            <Link href="/quality" className={`${s.cta} ${s.ctaPrimary}`}>
+              Read the test results
+            </Link>
+            <Link href="/press" className={s.quietLink}>
+              Featured in local press &rarr;
+            </Link>
+          </div>
         </div>
       </section>
     </main>
