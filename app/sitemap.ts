@@ -17,8 +17,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/quality", priority: 0.9 },
     { path: "/blog", priority: 0.7 },
     { path: "/products", priority: 0.7 },
-    { path: "/press", priority: 0.5 },
-    { path: "/about", priority: 0.5 },
+    { path: "/our-teas", priority: 0.7 },
+    { path: "/press", priority: 0.9 },
+    { path: "/about", priority: 0.9 },
   ].map((r) => ({
     url: `${SITE_URL}${r.path}`,
     lastModified: new Date(),

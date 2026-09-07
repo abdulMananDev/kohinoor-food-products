@@ -13,6 +13,7 @@ import s from "./site-chrome.module.css";
 
 const nav = [
   { href: "/products", label: "Products" },
+  { href: "/our-teas", label: "Our teas" },
   // "Results" not "Test results": the longer label overflows the bar at
   // 375px, and the surrounding context already makes it unambiguous.
   { href: "/quality", label: "Results" },
@@ -69,12 +70,15 @@ export function SiteFooter() {
         </div>
 
         <nav className={s.footerNav} aria-label="Footer">
-          {/* One SKU, so one link. "Instant mix" and "Loose leaf" were
-              three separate entries pointing at the same page. */}
+          {/* One SKU on /products, so one link for it. The rest of the
+              Inaam Tea range is listed separately on /our-teas. */}
           <div className={s.footerCol}>
             <h2 className={s.footerHead}>Shop</h2>
             <Link href="/products" className={s.footerLink}>
               New Fast Tea
+            </Link>
+            <Link href="/our-teas" className={s.footerLink}>
+              Our tea range
             </Link>
           </div>
 

@@ -1,4 +1,6 @@
-/* Single-product page. Tokens only. */
+/* Single-product page. Tokens only.
+   The pack shot, quantity stepper and CTA live in
+   app/components/product-ui.module.css — shared with /our-teas. */
 
 .page {
   max-width: var(--measure);
@@ -35,20 +37,6 @@
   }
 }
 
-.media {
-  background: var(--sunk);
-  border: 1px solid var(--rule);
-  border-radius: var(--r-surface);
-  overflow: hidden;
-  margin-bottom: var(--s2);
-}
-
-.media img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 .name {
   font-size: clamp(24px, 2.8vw, 32px);
   max-width: 20ch;
@@ -71,17 +59,6 @@
 .priceUnit {
   font-size: 14px;
   color: var(--ink-muted);
-}
-
-.label {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  padding: 0;
-  margin-bottom: var(--s2);
 }
 
 /* ---- size selector ----------------------------------------------------- */
@@ -151,130 +128,6 @@
   font-size: 14px;
   color: var(--ink-muted);
   font-variant-numeric: tabular-nums;
-}
-
-/* ---- quantity ---------------------------------------------------------- */
-
-.qtyRow {
-  margin-top: var(--s2);
-}
-
-.qty {
-  display: inline-flex;
-  align-items: stretch;
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-control);
-  overflow: hidden;
-  background: var(--surface);
-}
-
-.qty button {
-  width: 44px;
-  min-height: 44px;
-  border: 0;
-  background: transparent;
-  color: var(--ink);
-  font-size: 18px;
-  cursor: pointer;
-  transition: background-color var(--dur-fast) ease;
-}
-
-.qty button:disabled {
-  color: var(--ink-faint);
-  cursor: not-allowed;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .qty button:not(:disabled):hover {
-    background: var(--sunk);
-  }
-}
-
-.qty input {
-  width: 52px;
-  border: 0;
-  border-inline: 1px solid var(--rule);
-  text-align: center;
-  background: transparent;
-  color: var(--ink);
-  font-variant-numeric: tabular-nums;
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
-.qty input::-webkit-outer-spin-button,
-.qty input::-webkit-inner-spin-button {
-  appearance: none;
-  margin: 0;
-}
-
-/* ---- actions ----------------------------------------------------------- */
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s3);
-  margin-top: var(--s3);
-}
-
-/* The WhatsApp mark. `currentColor`, so it inherits the button's ink and
-   stays correct through the hover inversion without a second rule. */
-.ctaIcon {
-  width: 18px;
-  height: 18px;
-  margin-right: var(--s2);
-  flex-shrink: 0;
-}
-
-.cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1 1 auto;
-  min-height: 48px;
-  padding: 0 var(--s5);
-  border-radius: var(--r-control);
-  border: 1px solid transparent;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 600;
-  /* These were <button>s originally; the WhatsApp CTA is an <a>, which
-     brings its own underline. */
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    transform var(--dur-fast) var(--ease-out),
-    background-color var(--dur-fast) ease,
-    border-color var(--dur-fast) ease,
-    color var(--dur-fast) ease;
-}
-
-.cta:active {
-  transform: scale(0.97);
-}
-
-/* Ink on gold — gold is a fill, never text. */
-.ctaPrimary {
-  background: var(--gold);
-  color: var(--ink);
-}
-
-.ctaGhost {
-  background: transparent;
-  border-color: var(--rule-strong);
-  color: var(--ink);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .ctaPrimary:hover {
-    background: var(--ink);
-    color: var(--paper);
-  }
-
-  .ctaGhost:hover {
-    border-color: var(--ink);
-    background: var(--surface);
-  }
 }
 
 /* ---- right: supporting content ----------------------------------------- */

@@ -38,11 +38,16 @@
   min-width: 0;
 }
 
-/* The wordmark plus three labels needs about 400px, so below that the bar
+/* The wordmark plus the labels needs about 400px, so below that the bar
    would push the document wider than the viewport — which drags every
    centred section on the page sideways with it. Tighten the bar instead of
    hiding the overflow: the symptom shows up on the hero, but the cause is
-   here. */
+   here.
+
+   Four labels since /our-teas was added, so tightening alone no longer
+   guarantees a fit at 360px. The row scrolls sideways as a backstop rather
+   than pushing the document — nothing is hidden, and the footer carries the
+   same links in full. */
 @media (max-width: 460px) {
   .barInner {
     padding-inline: var(--s4);
@@ -51,6 +56,15 @@
 
   .wordmark {
     font-size: 17px;
+  }
+
+  .links {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .links::-webkit-scrollbar {
+    display: none;
   }
 
   .link {
