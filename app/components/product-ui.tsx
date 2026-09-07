@@ -1,7 +1,7 @@
 "use client";
 
 import { useId } from "react";
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import { whatsappUrl } from "@/lib/site";
 import s from "./product-ui.module.css";
 
@@ -29,25 +29,36 @@ export function WhatsAppIcon({
   );
 }
 
-/** The pack shot: sunk ground, hairline rule, rounded, image fills the width
-    at its own aspect ratio. Same framing on every product. */
+/** The pack shot: sunk ground, hairline rule, rounded. Same framing on every
+    product.
+
+    `square` fits the image inside a 1:1 box instead of letting it set its own
+    height. A grid of cards needs one shape — three packets shot at 0.84, 0.80
+    and 1.00 would otherwise give three different image heights in one row —
+    and it is `contain`, never `cover`, because cropping the edge off a
+    product packet to fill a box is worse than letterboxing it.
+
+    Pass a static import for `src` and the dimensions come from the file;
+    a string path needs `width` and `height` given explicitly. */
 export function PackShot({
   src,
   alt,
-  width = 1400,
-  height = 784,
+  width,
+  height,
   sizes,
   priority,
+  square,
 }: {
-  src: string;
+  src: string | StaticImageData;
   alt: string;
   width?: number;
   height?: number;
   sizes?: string;
   priority?: boolean;
+  square?: boolean;
 }) {
   return (
-    <div className={s.media}>
+    <div className={s.media} data-square={square || undefined}>
       <Image
         src={src}
         alt={alt}

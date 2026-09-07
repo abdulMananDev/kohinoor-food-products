@@ -15,10 +15,7 @@ import s from "./mdx.module.css";
    capable of reporting a failure — a table that can only render "clear" is
    not evidence of anything. */
 export type LabState =
-  | "not-detected"
-  | "within-limit"
-  | "exceeded"
-  | "not-tested";
+  "not-detected" | "within-limit" | "exceeded" | "not-tested";
 
 const STATE_LABEL: Record<LabState, string> = {
   "not-detected": "Not detected",
@@ -158,7 +155,9 @@ export function TimelineEntry({
       <div className={s.what}>
         <h3 className={s.entryTitle}>{title}</h3>
         {children}
-        {pending ? <p className={s.pending}>Result still outstanding.</p> : null}
+        {pending ? (
+          <p className={s.pending}>Result still outstanding.</p>
+        ) : null}
       </div>
     </li>
   );
@@ -170,7 +169,11 @@ export function TimelineEntry({
    not boxed — this is the site volunteering something against its own
    interest, and dressing it as an alert would read as alarm while boxing it
    would read as an aside to be skipped. It is set as part of the document,
-   at body strength. */
+   at body strength.
+
+   <section>, not <aside>, for the same reason: what a panel did not cover is
+   the most cite-critical thing on a results page, and <aside> tells both
+   screen readers and extractors that it is tangential. */
 export function Disclosure({
   title = "What this does not cover",
   children,
@@ -179,10 +182,10 @@ export function Disclosure({
   children: ReactNode;
 }) {
   return (
-    <aside className={s.disclosure}>
+    <section className={s.disclosure}>
       <h3 className={s.disclosureTitle}>{title}</h3>
       <div className={s.disclosureBody}>{children}</div>
-    </aside>
+    </section>
   );
 }
 

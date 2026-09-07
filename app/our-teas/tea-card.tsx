@@ -27,6 +27,7 @@ export default function TeaCard({
         alt={`${tea.name} tea pack by Inaam Tea`}
         sizes="(min-width: 960px) 33vw, (min-width: 640px) 50vw, 100vw"
         priority={priority}
+        square
       />
       <h2 className={s.name}>{tea.name}</h2>
       <p className={s.tagline}>{tea.tagline}</p>

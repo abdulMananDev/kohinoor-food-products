@@ -43,6 +43,27 @@ export const frontmatterSchema = z
       .startsWith("/reports/", "must be a path under /public/reports/")
       .optional(),
     tags: z.array(z.string()).default([]),
+    /* Named things the post is about, for schema.org `mentions`. Names only
+       - the sameAs URL that disambiguates each one lives in ENTITIES below,
+       so adding a dye to a second post is one word, not another URL to keep
+       in sync. An unknown name still emits a Thing, just without sameAs. */
+    entities: z.array(z.string()).default([]),
+    /* The page whose subject this post is written about, as a path with a
+       fragment - "/quality#dye-panel". Emitted as schema.org `about`
+       pointing at that node's @id, which is the half of the relationship
+       the other page states back with `subjectOf`. Two pages carrying the
+       same results without this read as two pages competing for one query. */
+    about: z
+      .string()
+      .startsWith("/", "must be a site-relative path")
+      .optional(),
+    /* Questions this post actually answers, in the post's own words.
+       Rendered visibly at the top and emitted as FAQPage - the same text in
+       both places, because marking up an answer that is not on the page is
+       both a Google violation and, here, a lie. */
+    faq: z
+      .array(z.object({ q: z.string().min(1), a: z.string().min(1) }))
+      .default([]),
   })
   .strict() // an unrecognised key is a typo, and typos here are silent bugs
   .refine((fm) => !fm.updatedAt || fm.updatedAt >= fm.publishedAt, {
@@ -212,3 +233,36 @@ export const SITE_URL = resolveSiteUrl();
 
 export const SITE_NAME = "New Fast Tea";
 
+/* Entity disambiguation.
+ *
+ * "Carmoisine" and "Indigotine" are trade names for compounds Wikipedia
+ * files under different titles, and "NABL" is an initialism with several
+ * unrelated expansions. A sameAs URL is how an answer engine knows which
+ * thing the post means - without it these are just strings, and a page that
+ * cannot be resolved to an entity does not get cited as a source on it.
+ *
+ * Keys are matched exactly against the `entities` frontmatter list. Every
+ * URL here was checked to resolve; add one only after checking it. */
+const ENTITIES: Record<string, string> = {
+  "Sunset Yellow FCF": "https://en.wikipedia.org/wiki/Sunset_Yellow_FCF",
+  "Brilliant Blue FCF": "https://en.wikipedia.org/wiki/Brilliant_Blue_FCF",
+  // Carmoisine is the trade name; Wikipedia files it under Azorubine.
+  Carmoisine: "https://en.wikipedia.org/wiki/Azorubine",
+  Erythrosine: "https://en.wikipedia.org/wiki/Erythrosine",
+  "Fast Green FCF": "https://en.wikipedia.org/wiki/Fast_Green_FCF",
+  Indigotine: "https://en.wikipedia.org/wiki/Indigo_carmine",
+  "Ponceau 4R": "https://en.wikipedia.org/wiki/Ponceau_4R",
+  Tartrazine: "https://en.wikipedia.org/wiki/Tartrazine",
+  HPLC: "https://en.wikipedia.org/wiki/High-performance_liquid_chromatography",
+  NABL: "https://en.wikipedia.org/wiki/National_Accreditation_Board_for_Testing_and_Calibration_Laboratories",
+  FSSAI:
+    "https://en.wikipedia.org/wiki/Food_Safety_and_Standards_Authority_of_India",
+};
+
+/** A schema.org Thing for one named entity, with sameAs when we know it. */
+export function entityRef(name: string) {
+  const sameAs = ENTITIES[name];
+  return sameAs
+    ? { "@type": "Thing", name, sameAs }
+    : { "@type": "Thing", name };
+}

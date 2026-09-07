@@ -1,3 +1,8 @@
+import type { StaticImageData } from "next/image";
+import libertyTea from "@/public/our-teas/liberty-tea.png";
+import saafNoonChai from "@/public/our-teas/saaf-noon-chai.png";
+import lamsaTea from "@/public/our-teas/lamsa-tea.png";
+
 /* The product.
  *
  * New Fast Tea is a single SKU sold in two pack sizes. It is modelled as one
@@ -76,10 +81,7 @@ export function formatPrice(rupees: number): string {
  * Deliberately a different shape from `product` above: these are listed, not
  * specified. No price, no batch, no licence — nothing is claimed here that
  * has not been supplied, and /our-teas asks the customer to enquire on
- * WhatsApp rather than quoting a figure.
- *
- * TODO: real pack photography per tea. All three currently share the New Fast
- * Tea image because no pack shots have been supplied. */
+ * WhatsApp rather than quoting a figure. */
 export type OtherTea = {
   slug: string;
   name: string;
@@ -87,7 +89,11 @@ export type OtherTea = {
   description: string;
   /** The line under the description on the card. */
   footer: string;
-  image: string;
+  /* Imported rather than referenced by path, so the intrinsic width and
+     height come from the file itself. The three pack shots are 720x855,
+     399x501 and 1500x1500 — hand-copied numbers that different would drift
+     the first time one is re-exported. */
+  image: StaticImageData;
 };
 
 export const otherTeas: OtherTea[] = [
@@ -98,7 +104,7 @@ export const otherTeas: OtherTea[] = [
     description:
       "Liberty Tea is our best-selling and most trusted blend, known for its bold strength, rich colour, and exceptional taste. Crafted from premium tea leaves, every cup delivers a strong, refreshing brew with consistent quality.",
     footer: "The Perfect Blend of Rich Taste & Refreshing Aroma.",
-    image: "/new-fast-tea-leaves.png",
+    image: libertyTea,
   },
   {
     slug: "saaf-noon-chai",
@@ -107,7 +113,7 @@ export const otherTeas: OtherTea[] = [
     description:
       "Experience the authentic taste of traditional Kashmiri Pink Tea with our premium Butter Grade Saaf Noon Chai. Made from carefully selected green tea leaves, it offers a smooth, creamy texture and a rich, satisfying flavour in every cup.",
     footer: "Handpicked Leaves for the Ultimate Butter-Grade Brew.",
-    image: "/new-fast-tea-leaves.png",
+    image: saafNoonChai,
   },
   {
     slug: "lamsa-tea",
@@ -116,6 +122,6 @@ export const otherTeas: OtherTea[] = [
     description:
       "Lamsa Special Tea is an exclusive blend, available only at Inaam Tea. Known for its signature chocolate-like aroma and rich flavour, it transforms every cup into a delightful tea experience with an unforgettable taste and refreshing fragrance.",
     footer: "Tradition in Every Pour.",
-    image: "/new-fast-tea-leaves.png",
+    image: lamsaTea,
   },
 ];

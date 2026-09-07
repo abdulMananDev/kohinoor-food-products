@@ -39,6 +39,8 @@ export default function ProductView({ product }: { product: Product }) {
         <PackShot
           src={product.image}
           alt={product.imageAlt}
+          width={1400}
+          height={784}
           sizes="(min-width: 900px) 45vw, 100vw"
           priority
         />

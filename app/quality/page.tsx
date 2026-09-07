@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SITE_URL } from "@/lib/content";
 import s from "./quality.module.css";
 import c from "../home.module.css";
 
@@ -8,8 +9,15 @@ export const metadata = {
   /* Leads with the batch on sale, not with the advisory. A crawler or an
      answer engine reading title-first previously came away with "Batch 10
      advisory" as this page's subject; the advisory is context here, not the
-     topic. It is still covered in full further down. */
-  title: "Quality assurance and lab reports",
+     topic. It is still covered in full further down.
+
+     It also has to be visibly a different page from the Batch 12 write-up,
+     which competes for the same words. That post is titled as a dated
+     finding ("seven dyes tested, none detected"); this one is titled as a
+     standing status, which is the question it actually answers and the one
+     the h1 below answers too. The old "Quality assurance and lab reports"
+     matched neither its own h1 nor any question a reader asks. */
+  title: "Batch No. 12 is the tea on sale now, and it is clear",
   description:
     "New Fast Tea Batch No. 12, the batch on sale now, was tested by an NABL-accredited laboratory for synthetic dyes. Seven dyes, all Not Detected, signed report published in full — along with what the panel did not cover.",
   /* Without this the root layout canonical ("/") is inherited and this
@@ -40,12 +48,23 @@ const STATEMENT_PDF = "/reports/new-fast-tea-statement.pdf";
    freshness the reports do not have. */
 const STATUS_UPDATED = "2026-08-14";
 
+const PANEL_ID = `${SITE_URL}/quality#dye-panel`;
+const WRITEUP_ID = `${SITE_URL}/blog/batch-12-results#article`;
+
 /* The results read as cards rather than a table, so this carries the same
-   values in a form answer engines and crawlers can still extract. */
-const jsonLd = {
-  "@context": "https://schema.org",
+   values in a form answer engines and crawlers can still extract.
+ *
+ * `subjectOf` is the half that matters for this page's relationship to the
+ * Batch 12 write-up. Both pages carry these seven results and both name the
+ * batch in their heading, which without a stated relationship reads as two
+ * pages competing for one query. Stated, it reads as what it is: one result
+ * set, and the article written about it. The write-up points back with
+ * `about`. */
+const dyePanel = {
   "@type": "ItemList",
+  "@id": PANEL_ID,
   name: "Synthetic dye analysis, New Fast Tea Batch No. 12",
+  subjectOf: { "@id": WRITEUP_ID },
   itemListElement: [FEATURED, ...dyes].map((name, i) => ({
     "@type": "ListItem",
     position: i + 1,
@@ -58,6 +77,45 @@ const jsonLd = {
         'Specification "Should be Absent". Report OT/TEA/06-01/08/26, QSS Inspection and Testing Private Limited, 11.08.2026.',
     },
   })),
+};
+
+/* 4. The questions this page answers that the write-up deliberately does
+   not: which batch is in my hand, and where is its paperwork. The write-up
+   owns the findings questions ("what did the report say", "was Tartrazine
+   tested"). Splitting them this way is the same separation the titles make,
+   said again in a form an answer engine can lift.
+
+   Every answer below is rendered verbatim in the FAQ section at the foot of
+   the page, alongside its question. */
+const faq = [
+  {
+    q: "Which batch of New Fast Tea is on sale right now?",
+    a: "Batch No. 12, packed on 25 July 2026. It is the batch shipping to shops and households now, and it is the batch the published dye analysis was run on.",
+  },
+  {
+    q: "Where can I read the lab report for the New Fast Tea I am buying?",
+    a: "The signed report for Batch No. 12, OT/TEA/06-01/08/26 from QSS Inspection and Testing Private Limited, is published in full on this page as a PDF. Every batch report New Fast Tea has published is listed at newfasttea.com/transparency.",
+  },
+  {
+    q: "Is New Fast Tea still selling the batch the advisory named?",
+    a: "No. The advisory concerned Batch No. 10. The batch on sale is Batch No. 12, a later production batch packed after the advisory. Batch No. 10 has not been retested and New Fast Tea makes no claim about it.",
+  },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    dyePanel,
+    {
+      "@type": "FAQPage",
+      "@id": `${SITE_URL}/quality#faq`,
+      mainEntity: faq.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
 };
 
 function ResultCard({
@@ -105,7 +163,9 @@ export default function Quality() {
     <main id="main" className={s.page}>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
       />
 
       <span className={s.eyebrow}>Transparency</span>
@@ -153,8 +213,10 @@ export default function Quality() {
             <li>
               <strong>A broader panel is still running</strong> through Sadekar
               Enviro Engineers Pvt. Ltd., NABL{" "}
-              <span className="mono">TC-12207</span>. Its results will be
-              published here whatever they show.
+              <span className="mono">TC-12207</span>, commissioned 6 August 2026
+              with results expected in 10 to 15 working days. Nothing has been
+              reported yet. Its results will be published here whatever they
+              show.
             </li>
             <li>
               <strong>The advisory concerned Batch No. 10</strong>, an earlier
@@ -288,117 +350,56 @@ export default function Quality() {
         </div>
       </section>
 
+      {/* The chronology used to be duplicated here, entry for entry, from
+          the Batch 12 write-up — same events, same dates, reworded. Two
+          pages telling one story is two pages competing for it, and a
+          reader who spots the wording drift between them has been given a
+          reason to doubt both. The write-up is the dated record and keeps
+          it; this page keeps the standing commitment, which is the part
+          that is about every batch rather than about this one. */}
       <section className={s.section}>
-        <h2>How this unfolded</h2>
+        <h2>The record, and the commitment</h2>
+        <p className={s.sectionNote}>
+          The dated chronology — the advisory, the packing of Batch No. 12 on 25
+          July 2026, both laboratory submissions on 6 August — is kept as a
+          single record in{" "}
+          <Link href="/blog/batch-12-results">
+            Batch No. 12: seven dyes tested, none detected
+          </Link>
+          , so there is one version of it rather than two.{" "}
+          <a href={STATEMENT_PDF}>Read our statement in full</a>.
+        </p>
 
-        <div className={s.timeline}>
-          <div className={s.entry}>
-            <div className={s.when}>
-              {/* TODO: real advisory date, not supplied. Precedes 25 July 2026. */}
-              <span>Date TODO</span>
-            </div>
-            <div className={s.what}>
-              <h3>An advisory is issued regarding Batch No. 10</h3>
-              <p>
-                It raised concern about synthetic colouring agents, Sunset
-                Yellow FCF among them, in the instant mix. It concerned Batch
-                No. 10 specifically. That batch has not been retested, and
-                nothing on this page claims otherwise.
-              </p>
-            </div>
-          </div>
-
-          <div className={s.entry}>
-            <div className={s.when}>
-              <time dateTime="2026-07-25">25 July 2026</time>
-            </div>
-            <div className={s.what}>
-              <h3>Batch No. 12 is packed</h3>
-              <p>
-                A later production batch, packed after the advisory. This is the
-                batch that was sent for analysis.
-              </p>
-            </div>
-          </div>
-
-          <div className={s.entry}>
-            <div className={s.when}>
-              <time dateTime="2026-08-06">06.08.2026</time>
-            </div>
-            <div className={s.what}>
-              <h3>We meet our legal advisor and an accredited laboratory</h3>
-              <p>
-                M/s INAAM Tea Agency held a joint meeting with our legal advisor
-                and Sadekar Enviro Engineers Pvt. Ltd. Testing Laboratory about
-                the advisory, and submitted a fresh sample of Batch No. 12 for
-                analysis. Separately, a sample was received by QSS Inspection
-                and Testing Private Limited the same day.{" "}
-                <a href={STATEMENT_PDF}>Read our statement in full</a>.
-              </p>
-            </div>
-          </div>
-
-          <div className={s.entry}>
-            <div className={s.when}>
-              <time dateTime="2026-08-11">06.08 to 11.08.2026</time>
-            </div>
-            <div className={s.what}>
-              <h3>Seven dyes tested, none detected</h3>
-              <p>
-                The results are above, with the signed report linked alongside
-                them. The full write-up — what the panel covered, what it did
-                not, and why Batch No. 12 is not Batch No. 10 — is at{" "}
-                <Link href="/blog/batch-12-results">
-                  Batch No. 12: seven dyes tested, none detected
-                </Link>
-                .
-              </p>
-            </div>
-          </div>
-
-          <div className={s.entry}>
-            <div className={s.when}>
-              <time dateTime="2026-08-06">Commissioned 06.08.2026</time>
-            </div>
-            <div className={s.what}>
-              <h3>A broader analysis is still running</h3>
-              <p>
-                A second analysis of Batch No. 12 was commissioned through
-                Sadekar Enviro Engineers Pvt. Ltd. Testing Laboratory, which
-                holds NABL certificate no.{" "}
-                <span className="mono">TC-12207</span> and fulfils FSSAI
-                requirements.
-              </p>
-              <div className={s.pending}>
-                <span className={s.pendingLabel}>In progress</span>
-                <p>
-                  Results expected 10 to 15 working days from 06.08.2026.
-                  Nothing has been reported yet. This entry will carry the
-                  findings when they arrive.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className={s.entry}>
-            <div className={s.when}>
-              <span>Ongoing</span>
-            </div>
-            <div className={s.what}>
-              <h3>Every batch is tested before it is sold</h3>
-              <p>
-                Our published commitment: sales of all fresh batches commence
-                only after satisfactory test reports are received from an
-                NABL-accredited laboratory, and where applicable the necessary
-                certification. Every report is published alongside the numbers.{" "}
-                <Link href="/transparency">See all batch results</Link>.
-              </p>
-              <p>
-                <Link href="/press">See press coverage &rarr;</Link>
-              </p>
-            </div>
+        <div className={s.scope}>
+          <div className={s.scopeCore}>
+            <h3>Every batch is tested before it is sold</h3>
+            <p>
+              Our published commitment: sales of all fresh batches commence only
+              after satisfactory test reports are received from an
+              NABL-accredited laboratory, and where applicable the necessary
+              certification. Every report is published alongside the numbers.{" "}
+              <Link href="/transparency">See all batch results</Link>, or{" "}
+              <Link href="/press">see press coverage</Link>.
+            </p>
           </div>
         </div>
+      </section>
+
+      {/* Answers to the two things someone holding a packet actually wants
+          to know. Deliberately not the findings questions — those belong to
+          the write-up, and answering them in both places is how the two
+          pages ended up competing in the first place. Same text as the
+          FAQPage markup at the top of this file. */}
+      <section className={s.section} aria-labelledby="faq-title">
+        <h2 id="faq-title">Questions we get asked</h2>
+        <dl className={s.faq}>
+          {faq.map((f) => (
+            <div key={f.q}>
+              <dt>{f.q}</dt>
+              <dd>{f.a}</dd>
+            </div>
+          ))}
+        </dl>
       </section>
     </main>
   );

@@ -38,7 +38,7 @@ const jsonLd = {
       name: tea.name,
       description: tea.description,
       brand: { "@type": "Brand", name: "Inaam Tea" },
-      image: `${SITE_URL}${tea.image}`,
+      image: `${SITE_URL}${tea.image.src}`,
     },
   })),
 };
