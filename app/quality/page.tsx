@@ -5,9 +5,13 @@ import c from "../home.module.css";
 export const revalidate = 2592000;
 
 export const metadata = {
-  title: "The Batch 10 advisory, and what we tested",
+  /* Leads with the batch on sale, not with the advisory. A crawler or an
+     answer engine reading title-first previously came away with "Batch 10
+     advisory" as this page's subject; the advisory is context here, not the
+     topic. It is still covered in full further down. */
+  title: "Quality assurance and lab reports",
   description:
-    "An advisory was issued about Batch No. 10. We sent Batch No. 12 to an NABL-accredited laboratory for synthetic dye analysis. Seven dyes, all Not Detected. Full report and scope published here.",
+    "New Fast Tea Batch No. 12, the batch on sale now, was tested by an NABL-accredited laboratory for synthetic dyes. Seven dyes, all Not Detected, signed report published in full — along with what the panel did not cover.",
   /* Without this the root layout canonical ("/") is inherited and this
      page tells crawlers it is the homepage. */
   alternates: { canonical: "/quality" },
@@ -30,6 +34,11 @@ const FEATURED = "Sunset Yellow FCF";
 
 const REPORT_PDF = "/reports/nft-batch-12-qss-OT-TEA-06-01-08-26.pdf";
 const STATEMENT_PDF = "/reports/new-fast-tea-statement.pdf";
+
+/* Hand-set, not new Date(): this is the date the status below was last
+   true, not the date the page was rendered. A build stamp here would claim
+   freshness the reports do not have. */
+const STATUS_UPDATED = "2026-08-14";
 
 /* The results read as cards rather than a table, so this carries the same
    values in a form answer engines and crawlers can still extract. */
@@ -100,14 +109,61 @@ export default function Quality() {
       />
 
       <span className={s.eyebrow}>Transparency</span>
-      <h1>An advisory named Batch 10. We tested Batch 12.</h1>
+      <h1>The tea on sale now is Batch No. 12, tested and clear.</h1>
       <p className={s.lede}>
-        Below is the sequence as it happened, with the laboratory report
-        published in full. Two things are worth saying before you read it: the
-        batch that was tested is not the batch the advisory named, and the panel
-        does not cover every dye. Both are stated plainly here rather than left
-        for you to find.
+        Batch No. 12 was sent to an NABL-accredited laboratory for synthetic dye
+        analysis and came back with all seven parameters Not Detected. The
+        signed report is published below in full, together with the two things
+        it does not settle: the panel did not include every dye, and the
+        advisory that prompted it concerned an earlier batch.
       </p>
+
+      {/* Declarative and scannable, immediately under the h1. Anything
+          summarising this page — a crawler, an answer engine, a reader in a
+          hurry — should reach the current status before it reaches the
+          history. The gaps are in the same list as the results on purpose:
+          a status block that only carries good news is not a status block. */}
+      <section className={s.status} aria-labelledby="status-title">
+        <div className={s.statusCore}>
+          <h2 id="status-title">Current batch status</h2>
+          <p className={s.statusWhen}>
+            Last updated{" "}
+            <time dateTime={STATUS_UPDATED} className="mono">
+              14 August 2026
+            </time>
+            , when the Batch No. 12 report was published.
+          </p>
+          <ul className={s.statusList}>
+            <li>
+              <strong>Batch No. 12 is the batch in the market</strong>, packed
+              25 July 2026 and shipping now.
+            </li>
+            <li>
+              <strong>
+                Seven synthetic dyes tested by HPLC, none detected.
+              </strong>{" "}
+              Report <span className="mono">OT/TEA/06-01/08/26</span>, QSS
+              Inspection and Testing Private Limited, NABL{" "}
+              <span className="mono">TC-17494</span>, ISO/IEC 17025:2017.
+            </li>
+            <li>
+              <strong>Tartrazine was not in this panel.</strong> It is untested,
+              which is not the same as a pass, and is not presented as one.
+            </li>
+            <li>
+              <strong>A broader panel is still running</strong> through Sadekar
+              Enviro Engineers Pvt. Ltd., NABL{" "}
+              <span className="mono">TC-12207</span>. Its results will be
+              published here whatever they show.
+            </li>
+            <li>
+              <strong>The advisory concerned Batch No. 10</strong>, an earlier
+              batch. It has not been retested, and nothing on this site is a
+              claim about it.
+            </li>
+          </ul>
+        </div>
+      </section>
 
       <div className={s.figures}>
         <div className={`${s.figure} ${s.reveal}`}>

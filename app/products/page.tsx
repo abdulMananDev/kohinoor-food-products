@@ -14,7 +14,9 @@ export const metadata: Metadata = {
   title: product.name,
   description: `Instant mix tea from Assam leaf, packed in Thane. ${product.variants
     .map((v) => `${formatWeight(v.weightGrams)} ${formatPrice(v.price)}`)
-    .join(", ")}. Batch ${product.batchNumber}, tested clear for synthetic colours.`,
+    .join(
+      ", ",
+    )}. Batch ${product.batchNumber}, tested clear for synthetic colours.`,
   alternates: { canonical: `${SITE_URL}/products` },
   openGraph: {
     type: "website",
@@ -39,7 +41,8 @@ const jsonLd = {
     name: formatWeight(v.weightGrams),
     price: v.price,
     priceCurrency: "INR",
-    availability: "https://schema.org/PreOrder",
+    /* Shipping, not taking pre-orders — confirmed 7 Sep 2026. */
+    availability: "https://schema.org/InStock",
     url: `${SITE_URL}/products`,
   })),
 };

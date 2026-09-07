@@ -45,6 +45,61 @@
   font-size: 1.1rem;
 }
 
+/* ---- Current status ----
+ *
+ * Same tray-and-core construction as .scope, left-aligned and sitting
+ * directly under the lede. No new tokens. */
+
+.status {
+  margin-top: var(--s7);
+  background: var(--sunk);
+  border-radius: var(--r-card);
+  padding: var(--s1);
+}
+.statusCore {
+  background: var(--surface);
+  border-radius: var(--r-core);
+  padding: var(--s6);
+}
+.statusCore h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.statusWhen {
+  margin: var(--s2) 0 0;
+  color: var(--ink-faint);
+  font-size: 0.85rem;
+}
+.statusList {
+  margin: var(--s5) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--s4);
+  max-width: 68ch;
+}
+.statusList li {
+  position: relative;
+  padding-left: var(--s5);
+  color: var(--ink-muted);
+}
+/* Gold is a fill, never a word — the marker carries the brand, the text
+   stays ink. */
+.statusList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--gold);
+}
+.statusList strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
 /* ---- Headline figures ---- */
 
 .figures {
