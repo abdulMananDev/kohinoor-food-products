@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { SITE_URL } from "@/lib/content";
 import s from "./quality.module.css";
+import FaqCards from "../components/faq-cards";
+import { answerText, type FaqItem } from "@/lib/faq";
 import c from "../home.module.css";
 
 export const revalidate = 2592000;
@@ -45,7 +47,12 @@ const STATEMENT_PDF = "/reports/new-fast-tea-statement.pdf";
 
 /* Hand-set, not new Date(): this is the date the status below was last
    true, not the date the page was rendered. A build stamp here would claim
-   freshness the reports do not have. */
+   freshness the reports do not have.
+
+   TODO: the status list now also carries the Batch No. 10 ban and
+   withdrawal, which is not something the 11 August report established. If
+   that happened on a different date, this stamp and the visible "when the
+   Batch No. 12 report was published" line below both need updating. */
 const STATUS_UPDATED = "2026-08-14";
 
 const PANEL_ID = `${SITE_URL}/quality#dye-panel`;
@@ -87,18 +94,43 @@ const dyePanel = {
 
    Every answer below is rendered verbatim in the FAQ section at the foot of
    the page, alongside its question. */
-const faq = [
+const faq: FaqItem[] = [
   {
+    id: "on-sale-now",
     q: "Which batch of New Fast Tea is on sale right now?",
-    a: "Batch No. 12, packed on 25 July 2026. It is the batch shipping to shops and households now, and it is the batch the published dye analysis was run on.",
+    a: [
+      ["Batch No. 12, packed on 25 July 2026."],
+      [
+        "It is the batch shipping to shops and households now, and it is the batch the published dye analysis was run on.",
+      ],
+    ],
   },
   {
+    id: "read-the-report",
     q: "Where can I read the lab report for the New Fast Tea I am buying?",
-    a: "The signed report for Batch No. 12, OT/TEA/06-01/08/26 from QSS Inspection and Testing Private Limited, is published in full on this page as a PDF. Every batch report New Fast Tea has published is listed at newfasttea.com/transparency.",
+    a: [
+      [
+        "The signed report for Batch No. 12, OT/TEA/06-01/08/26 from QSS Inspection and Testing Private Limited, is published in full on this page as a PDF.",
+      ],
+      [
+        "Every batch report New Fast Tea has published is listed on ",
+        { text: "the transparency page", href: "/transparency" },
+        ".",
+      ],
+    ],
   },
   {
+    id: "still-selling",
     q: "Is New Fast Tea still selling the batch the advisory named?",
-    a: "No. The advisory concerned Batch No. 10. The batch on sale is Batch No. 12, a later production batch packed after the advisory. Batch No. 10 has not been retested and New Fast Tea makes no claim about it.",
+    a: [
+      ["No."],
+      [
+        "The advisory concerned Batch No. 10, which was banned and whose stock has been withdrawn from the market.",
+      ],
+      [
+        "The batch on sale is Batch No. 12, a later production batch packed after the advisory. Batch No. 10 has not been retested, and New Fast Tea makes no claim about what it contained.",
+      ],
+    ],
   },
 ];
 
@@ -112,7 +144,7 @@ const jsonLd = {
       mainEntity: faq.map((f) => ({
         "@type": "Question",
         name: f.q,
-        acceptedAnswer: { "@type": "Answer", text: f.a },
+        acceptedAnswer: { "@type": "Answer", text: answerText(f.a) },
       })),
     },
   ],
@@ -175,7 +207,8 @@ export default function Quality() {
         analysis and came back with all seven parameters Not Detected. The
         signed report is published below in full, together with the two things
         it does not settle: the panel did not include every dye, and the
-        advisory that prompted it concerned an earlier batch.
+        advisory that prompted it concerned an earlier batch, Batch No. 10,
+        which was banned and withdrawn from the market.
       </p>
 
       {/* Declarative and scannable, immediately under the h1. Anything
@@ -219,9 +252,11 @@ export default function Quality() {
               show.
             </li>
             <li>
-              <strong>The advisory concerned Batch No. 10</strong>, an earlier
-              batch. It has not been retested, and nothing on this site is a
-              claim about it.
+              <strong>Batch No. 10 was banned and withdrawn.</strong> The
+              advisory concerned that earlier batch, not the one on sale. Its
+              stock has been withdrawn from the market, it has not been
+              retested, and nothing on this site is a claim about what it
+              contained.
             </li>
           </ul>
         </div>
@@ -378,7 +413,8 @@ export default function Quality() {
               after satisfactory test reports are received from an
               NABL-accredited laboratory, and where applicable the necessary
               certification. Every report is published alongside the numbers.{" "}
-              <Link href="/transparency">See all batch results</Link>, or{" "}
+              <Link href="/transparency">See all batch results</Link>,{" "}
+              <Link href="/faq">read the frequently asked questions</Link>, or{" "}
               <Link href="/press">see press coverage</Link>.
             </p>
           </div>
@@ -392,14 +428,7 @@ export default function Quality() {
           FAQPage markup at the top of this file. */}
       <section className={s.section} aria-labelledby="faq-title">
         <h2 id="faq-title">Questions we get asked</h2>
-        <dl className={s.faq}>
-          {faq.map((f) => (
-            <div key={f.q}>
-              <dt>{f.q}</dt>
-              <dd>{f.a}</dd>
-            </div>
-          ))}
-        </dl>
+        <FaqCards items={faq} />
       </section>
     </main>
   );

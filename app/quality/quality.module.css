@@ -451,28 +451,3 @@
     text-align: left;
   }
 }
-
-/* ---- faq --------------------------------------------------------------- */
-
-/* Set as running text, not as cards. These are answers to plain questions
-   and the page already has enough boxed surfaces above them. */
-.faq {
-  margin: var(--s5) 0 0;
-  display: grid;
-  gap: var(--s5);
-  max-width: 68ch;
-}
-
-.faq dt {
-  font-weight: 600;
-  font-size: 17px;
-  line-height: 1.5;
-  color: var(--ink);
-}
-
-.faq dd {
-  margin: var(--s2) 0 0;
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--ink-muted);
-}

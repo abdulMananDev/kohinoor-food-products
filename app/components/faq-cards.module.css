@@ -1,0 +1,135 @@
+/* One FAQ card, used on the homepage, /quality and /faq. The three places
+   used to render the same question/answer pairs three different ways — a
+   bare <dl>, a prose column, and a dl with its own styles — which is three
+   chances for them to drift apart on a site whose whole argument is that
+   its statements match each other.
+
+   Built on the tray idiom the rest of the site already uses: a --sunk
+   wrapper with 4px of padding around a --surface core, so the card lifts by
+   being brighter than its ground. No shadow. The system note in globals.css
+   is explicit that elevation here runs on brightness, and a box-shadow
+   scale would read as imported from a different site. */
+.grid {
+  --r-card: 8px;
+  --r-core: 8px;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--s4);
+}
+
+.card {
+  background: var(--sunk);
+  border-radius: var(--r-card);
+  padding: var(--s1);
+}
+
+.core {
+  position: relative;
+  height: 100%;
+  background: var(--surface);
+  border-radius: var(--r-core);
+  padding: var(--s5) var(--s5) var(--s5) var(--s6);
+}
+
+/* Gold marker, per the system's first rule: gold is a fill, never a word.
+   Inset rather than border-left because the core's radius would bend a
+   border into an arc at the corners. Same construction as the verdict
+   stripe on /quality, in the brand colour rather than the verdict pair —
+   green and red stay reserved for what the laboratory found. */
+.core::before {
+  content: "";
+  position: absolute;
+  left: var(--s4);
+  top: var(--s5);
+  width: 18px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--gold);
+}
+
+.q {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+.a {
+  margin: var(--s3) 0 0;
+  color: var(--ink-muted);
+  font-size: 0.97rem;
+}
+
+.a p {
+  margin: 0;
+  line-height: 1.65;
+  /* Answers quote report numbers and batch IDs. Let a long token reflow
+     rather than push the card wider than its column. */
+  overflow-wrap: anywhere;
+}
+
+.a p + p {
+  margin-top: var(--s3);
+}
+
+/* The direct answer, set apart from the qualifications that follow. Someone
+   scanning for "am I being told yes or no" should get it from the first
+   line without reading the rest. */
+.lead {
+  color: var(--ink);
+  font-size: 1.02rem;
+  font-weight: 500;
+}
+
+/* Same gold underline the prose columns use, so a link inside a card is
+   recognisably the same object as a link anywhere else on the site. Gold
+   stays a fill and never becomes the text colour. */
+.link {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 1px;
+  transition: background-color var(--dur-fast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    background: var(--sunk);
+  }
+}
+
+/* A card whose answer is still a placeholder is not presented as an answer.
+   It carries the restricted wash rather than the gold marker, so it is
+   visibly unfinished on the page and cannot be mistaken for a statement.
+   The same flag holds it out of the JSON-LD. */
+.card[data-state="incomplete"] {
+  background: var(--restricted-wash);
+}
+.card[data-state="incomplete"] .core::before {
+  background: var(--restricted);
+}
+
+/* Matches the load reveal used on /quality: entering, so ease-out, and
+   short enough that nobody waits on it. globals.css strips the movement
+   under prefers-reduced-motion and keeps the fade. */
+@keyframes faqRise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.card {
+  animation: faqRise 420ms var(--ease-out) backwards;
+}
+
+@media (max-width: 700px) {
+  .core {
+    padding: var(--s5) var(--s4) var(--s5) var(--s5);
+  }
+  .core::before {
+    left: var(--s3);
+  }
+}

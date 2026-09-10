@@ -118,6 +118,7 @@
 
 .proof {
   padding-block: var(--s10) var(--s9);
+  background: #fff;
 }
 
 .proofHead {
@@ -437,4 +438,21 @@
     opacity: 0;
     transform: translateY(10px);
   }
+}
+
+/* The two questions someone arriving from a bad search result needs
+   answered before they scroll. Cards come from components/faq-cards, the
+   same component /quality and /faq use, so the three renderings of these
+   questions cannot drift apart visually. */
+.faq {
+  padding: var(--s7) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.faqCards {
+  margin-top: var(--s5);
+}
+
+.faqMore {
+  margin-top: var(--s5);
 }

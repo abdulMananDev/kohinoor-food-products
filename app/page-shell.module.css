@@ -6,7 +6,7 @@
 .page {
   max-width: var(--measure);
   margin: 0 auto;
-  padding: var(--s10) var(--s5) var(--s9);
+  padding: var(--s2) var(--s5) var(--s9);
 }
 
 /* The measure belongs on the individual elements, not on the wrapper: a

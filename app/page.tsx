@@ -6,6 +6,8 @@ import Hero from "./hero";
 import Image from "next/image";
 import { product, formatPrice, formatWeight } from "@/lib/products";
 import s from "./home.module.css";
+import FaqCards from "./components/faq-cards";
+import { pick } from "@/lib/faq";
 
 /* Section rhythm, deliberately no two consecutive alike:
    1 hero      the meadow, full bleed, the page's only h1
@@ -35,6 +37,14 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
+/* Two entries from the same source /faq renders, picked rather than
+   retyped. Deliberately without FAQPage markup: two FAQPage entities where
+   one is a subset of the other is the divergence Google flags, and FAQ rich
+   results are restricted to government and health sites anyway. The value
+   of this block is that a reader who lands here from a wrong answer reads
+   the batch distinction before scrolling. */
+const faq = pick("banned", "current-batch");
+
 const figures = [
   { value: "7", label: "dyes tested by HPLC", sub: "Batch No. 12" },
   { value: "0", label: "detected", sub: "specification: absent" },
@@ -46,6 +56,11 @@ export default function Home() {
   return (
     <main id="main">
       <Hero />
+
+      {/* Directly under the hero: the batch distinction, before anything we
+          are selling. Someone who arrived from a search result claiming the
+          brand is banned should not have to scroll to find which batch is
+          which. */}
 
       {/* The proof strip sits directly under the hero on purpose. Someone who
           arrived from a rumour should not have to scroll to find the answer. */}
@@ -92,6 +107,75 @@ export default function Home() {
               </span>
             </span>
           </Link>
+        </div>
+      </section>
+
+      <section className={s.proof} aria-labelledby="proof-title">
+        <div className={s.inner}>
+          <div className={s.proofHead}>
+            <span className={s.eyebrow}>Why you can trust this</span>
+            <h2 id="proof-title">We publish the lab report, not a promise.</h2>
+            <p className={s.lede}>
+              An advisory was raised about our tea. Rather than answer it with
+              words, we sent a batch to an NABL-accredited laboratory and put
+              the signed report on this website, including what it does not
+              cover.
+            </p>
+          </div>
+
+          <ul className={s.figures}>
+            {figures.map((f, i) => (
+              <li
+                key={f.label}
+                className={s.figure}
+                style={{ animationDelay: `${i * 60}ms` }}
+              >
+                <strong className={`${s.figureValue} mono`}>{f.value}</strong>
+                <span className={s.figureLabel}>{f.label}</span>
+                <span className={s.figureSub}>{f.sub}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className={s.proofActions}>
+            <Link href="/quality" className={`${s.cta} ${s.ctaPrimary}`}>
+              Read the test results
+            </Link>
+            <Link href="/press" className={s.quietLink}>
+              Featured in local press &rarr;
+            </Link>
+          </div>
+        </div>
+      </section>
+      <section className={s.faq} aria-labelledby="faq-title">
+        <div className={s.inner}>
+          <span className={s.eyebrow}>Straight answers</span>
+          <h2 id="faq-title">No, the brand is not banned. One batch was.</h2>
+          <div className={s.faqCards}>
+            <FaqCards items={faq} />
+          </div>
+          <p className={s.faqMore}>
+            <Link href="/faq" className={s.quietLink}>
+              See all questions &rarr;
+            </Link>
+          </p>
+        </div>
+      </section>
+      <section className={s.closing}>
+        <div className={s.inner}>
+          <h2>Tea you can check.</h2>
+          <p className={s.lede}>
+            Every batch we sell goes through a laboratory first. If a report
+            ever comes back badly, it goes on this site too.
+          </p>
+          <div className={s.closingActions}>
+            <Link href="/products" className={`${s.cta} ${s.ctaPrimary}`}>
+              Browse products
+            </Link>
+            <Link href="/quality" className={`${s.cta} ${s.ctaGhost}`}>
+              See the evidence
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -150,62 +234,6 @@ export default function Home() {
                 have time to do it properly.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={s.closing}>
-        <div className={s.inner}>
-          <h2>Tea you can check.</h2>
-          <p className={s.lede}>
-            Every batch we sell goes through a laboratory first. If a report
-            ever comes back badly, it goes on this site too.
-          </p>
-          <div className={s.closingActions}>
-            <Link href="/products" className={`${s.cta} ${s.ctaPrimary}`}>
-              Browse products
-            </Link>
-            <Link href="/quality" className={`${s.cta} ${s.ctaGhost}`}>
-              See the evidence
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className={s.proof} aria-labelledby="proof-title">
-        <div className={s.inner}>
-          <div className={s.proofHead}>
-            <span className={s.eyebrow}>Why you can trust this</span>
-            <h2 id="proof-title">We publish the lab report, not a promise.</h2>
-            <p className={s.lede}>
-              An advisory was raised about our tea. Rather than answer it with
-              words, we sent a batch to an NABL-accredited laboratory and put
-              the signed report on this website, including what it does not
-              cover.
-            </p>
-          </div>
-
-          <ul className={s.figures}>
-            {figures.map((f, i) => (
-              <li
-                key={f.label}
-                className={s.figure}
-                style={{ animationDelay: `${i * 60}ms` }}
-              >
-                <strong className={`${s.figureValue} mono`}>{f.value}</strong>
-                <span className={s.figureLabel}>{f.label}</span>
-                <span className={s.figureSub}>{f.sub}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className={s.proofActions}>
-            <Link href="/quality" className={`${s.cta} ${s.ctaPrimary}`}>
-              Read the test results
-            </Link>
-            <Link href="/press" className={s.quietLink}>
-              Featured in local press &rarr;
-            </Link>
           </div>
         </div>
       </section>
