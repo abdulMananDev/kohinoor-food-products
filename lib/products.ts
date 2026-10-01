@@ -46,7 +46,7 @@ export const product: Product = {
   name: "New Fast Tea | Premium Instant Mix Tea",
   variants: [
     { weightGrams: 250, price: 130 },
-    { weightGrams: 1000, price: 500 },
+    { weightGrams: 1000, price: 520 },
   ],
   batchNumber: "No. 12",
   // 14-digit FSSAI licence, as printed on the pack.
